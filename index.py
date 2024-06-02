@@ -19,50 +19,55 @@ def eventoTeclado(tecla):
 
 def callEventos(diccionario: list[dict]):
 	for index, evento in enumerate(diccionario):
-		pyautogui.moveTo(evento.get("x"), evento.get("y"))
-		if evento.get("name") == "click_left" :
-			pyautogui.click
-			time.sleep(evento.get("timeSince"))
-		elif evento.get("name") == "click_right":
-			pyautogui.rightClick()
-		
+		time.sleep(evento.get("timeSince"))
+		eventName: str = evento.get("name")
+		if eventName == "click_left" or eventName == "click_right":
+			mouseClick(evento)
 		print(evento)
 
+def mouseClick(evento: dict):
+	pyautogui.moveTo(evento.get("x"), evento.get("y"))
+	eventName = evento.get("name")
+	if eventName == "click_left":
+		pyautogui.click
+	else :
+		pyautogui.rightClick()
 
 def click(x: int, y: int, button: Button, pressed: bool):
 	if pressed:
-		passedTime: float = time.time()
-		actualTime: float = float(format(passedTime - initialTime, ".2f"))	#& Limitado a 2 decimales
+		global initialTime
+		global tiempoPrevio
 
-		global eventTime
-		print(eventTime)
-		if eventTime == 0:
-			eventTime = actualTime
-		else:
-			eventTime = float(format((actualTime - eventTime), ".2f"))
+		tiempoActual: float = time.time() - initialTime
+		diff : float = tiempoActual - tiempoPrevio	#& diferencia de tiempos
+		print(f"actual: {tiempoActual:.6f} previo: {tiempoPrevio:.6f} diferencia {diff:.6f}")
+		tiempoPrevio = tiempoActual
 
-		print(f"Se hizo clic en la posición ({x}, {y}) con el {button} y tiempoGlobal {actualTime} tiempoDesdeAccion {eventTime:.2f}")
+
 		if button == Button.middle:
 			print("Botón medio presionado. Deteniendo el listener.")
 			return False
 
-
-
 		if button == Button.left or button == Button.right:
 			eventosDict.append({
 				"name" : f"click_{button.name}",
-				"timeSince" : eventTime,
+				"timeSince" : float(format(diff, ".3f")),
 				"x": x,
 				"y" : y
 			})
 
+
+
 print("Iniciado")
 
 initialTime: float = time.time()
-eventTime: float = 0
+tiempoPrevio: float = 0.0
+
 with Listener(on_click=click) as listener:
+	print("Listener\n")
 	listener.join()
 
+print("OutListener")
 
 keyboard.on_press(eventoTeclado)
 keyboard.wait("esc")
