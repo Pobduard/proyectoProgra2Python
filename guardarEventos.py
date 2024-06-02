@@ -1,37 +1,19 @@
 import time
 from pynput.mouse import Listener, Button
-import json as js
-import pyautogui
 import keyboard
+from eventos import *
 
 eventosDict: list[dict] = []
+ejecutarJson = False	#& Pa diferenciar despues cuando andamos guardando o ejecutando la secuencia del Json
+
 
 def eventoTeclado(tecla):
 	if keyboard.is_pressed("alt") and keyboard.is_pressed("ctrl") and tecla.name == "k":
 
 		callEventos(eventosDict)
 
-		json = js.dumps(eventosDict, indent=2)
-		with open("./secuence.json", "w") as j:
-			j.write(json)
+		writeJson("secuencia", eventosDict, 2)
 
-
-
-def callEventos(diccionario: list[dict]):
-	for index, evento in enumerate(diccionario):
-		time.sleep(evento.get("timeSince"))
-		eventName: str = evento.get("name")
-		if eventName == "click_left" or eventName == "click_right":
-			mouseClick(evento)
-		print(evento)
-
-def mouseClick(evento: dict):
-	pyautogui.moveTo(evento.get("x"), evento.get("y"))
-	eventName = evento.get("name")
-	if eventName == "click_left":
-		pyautogui.click
-	else :
-		pyautogui.rightClick()
 
 def click(x: int, y: int, button: Button, pressed: bool):
 	if pressed:
@@ -59,15 +41,15 @@ def click(x: int, y: int, button: Button, pressed: bool):
 
 
 print("Iniciado")
-
 initialTime: float = time.time()
 tiempoPrevio: float = 0.0
 
-with Listener(on_click=click) as listener:
-	print("Listener\n")
-	listener.join()
+if not ejecutarJson:
+	with Listener(on_click=click) as listener:
+		print("Listener\n")
+		listener.join()
 
-print("OutListener")
+	print("OutListener")
 
-keyboard.on_press(eventoTeclado)
-keyboard.wait("esc")
+	keyboard.on_press(eventoTeclado)
+	keyboard.wait("esc")
