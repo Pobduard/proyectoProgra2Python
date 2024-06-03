@@ -22,11 +22,9 @@ def mouseClick(evento: dict):
 
 def writeJson(name: str, lista: list[dict], indentacion: int = 2):
 	"""
-	``name`` = Nombre a ponerle al archivo (para que el usuario pueda en un futuro nombrar sus propias secuencias)
-
-	``lista`` = Lista con los diccionarios/Json para guardar en orden
-
-	``indentacion`` = la indentacion que se le pone al Json cuando se crea, por default es ``2``
+	- ``name`` = Nombre a ponerle al archivo (para que el usuario pueda en un futuro nombrar sus propias secuencias)
+	- ``lista`` = Lista con los diccionarios/Json para guardar en orden
+	- ``indentacion`` = la indentacion que se le pone al Json cuando se crea, por default es ``2``
 	"""
 
 	fileIn = json.dumps(lista, indent=indentacion)
@@ -39,5 +37,5 @@ def readJson(name: str):
 	with open(f"./{name}.json", "r") as fileIn:
 		dicc = json.load(fileIn)
 
-	print(dicc)
+	print(dicc, "\n")
 	return dicc	
