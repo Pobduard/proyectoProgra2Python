@@ -1,5 +1,5 @@
 import time
-from pynput.mouse import Listener, Button
+from pynput import mouse, keyboard as pynputKey
 import keyboard
 from eventos import *
 
@@ -15,7 +15,7 @@ def eventoTeclado(tecla):
 		writeJson("secuencia", eventosDict, 2)
 
 
-def click(x: int, y: int, button: Button, pressed: bool):
+def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 	if pressed:
 		global initialTime
 		global tiempoPrevio
@@ -26,11 +26,11 @@ def click(x: int, y: int, button: Button, pressed: bool):
 		tiempoPrevio = tiempoActual
 
 
-		if button == Button.middle:
+		if button == mouse.Button.middle:
 			print("Botón medio presionado. Deteniendo el listener.")
 			return False
 
-		if button == Button.left or button == Button.right:
+		if button == mouse.Button.left or button == mouse.Button.right:
 			eventosDict.append({
 				"name" : f"click_{button.name}",
 				"timeSince" : float(format(diff, ".3f")),
@@ -39,17 +39,30 @@ def click(x: int, y: int, button: Button, pressed: bool):
 			})
 
 
+def keyPress(key: pynputKey.Key):
+	print(key.name)
+
+
+def keyRelease(key: pynputKey.Key):
+	if key == pynputKey.Key.esc:
+		mouseListener.stop()
+		return False
+
+
 
 print("Iniciado")
 initialTime: float = time.time()
 tiempoPrevio: float = 0.0
 
 if not ejecutarJson:
-	with Listener(on_click=click) as listener:
-		print("Listener\n")
-		listener.join()
-
-	print("OutListener")
+	with mouse.Listener(on_click=mouseClick) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
+		mouseListener.join()
+		keyListener.join()
+	
 
 	keyboard.on_press(eventoTeclado)
 	keyboard.wait("esc")
+
+else:
+	dicc = readJson("secuence")
+	callEventos(dicc)
