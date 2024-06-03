@@ -32,3 +32,12 @@ def writeJson(name: str, lista: list[dict], indentacion: int = 2):
 	fileIn = json.dumps(lista, indent=indentacion)
 	with open(f"./{name}.json", "w") as fileOut:
 		fileOut.write(fileIn)
+
+
+def readJson(name: str):
+	dicc: dict
+	with open(f"./{name}.json", "r") as fileIn:
+		dicc = json.load(fileIn)
+
+	print(dicc)
+	return dicc	
