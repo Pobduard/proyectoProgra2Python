@@ -4,14 +4,14 @@ import keyboard
 from eventos import *
 
 eventosDict: list[dict] = []
-ejecutarJson = False	#& Pa diferenciar despues cuando andamos guardando o ejecutando la secuencia del Json
+keysPressed: list[str] = []
+
 
 
 def eventoTeclado(tecla):
 	if keyboard.is_pressed("alt") and keyboard.is_pressed("ctrl") and tecla.name == "k":
 
 		callEventos(eventosDict)
-
 		writeJson("secuencia", eventosDict, 2)
 
 
@@ -51,10 +51,16 @@ def keyRelease(key: pynputKey.Key):
 
 
 print("Iniciado")
+desicion = input("Desea Grabar el Json? (y/n) : si no lo graba se ejecutara el ya guardado") #& Pa diferenciar despues cuando andamos guardando o ejecutando la secuencia del Json
+if desicion.lower() == "y":
+	grabarJson = True
+else:
+	grabarJson = False
+
+
 initialTime: float = time.time()
 tiempoPrevio: float = 0.0
-
-if not ejecutarJson:
+if grabarJson:
 	with mouse.Listener(on_click=mouseClick) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
 		mouseListener.join()
 		keyListener.join()
@@ -64,5 +70,5 @@ if not ejecutarJson:
 	keyboard.wait("esc")
 
 else:
-	dicc = readJson("secuence")
+	dicc = readJson("secuence")	#& Tambien imprime el json leido, de momento almenos
 	callEventos(dicc)
