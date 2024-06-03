@@ -38,11 +38,17 @@ def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 				"y" : y
 			})
 
-def keyPress():
-	pass
 
-def keyRelease():
-	pass
+def keyPress(key: pynputKey.Key):
+	print(key.name)
+
+
+def keyRelease(key: pynputKey.Key):
+	if key == pynputKey.Key.esc:
+		mouseListener.stop()
+		return False
+
+
 
 print("Iniciado")
 initialTime: float = time.time()
