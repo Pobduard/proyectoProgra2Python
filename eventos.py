@@ -16,7 +16,7 @@ def mouseClick(evento: dict):
 	pyautogui.moveTo(evento.get("x"), evento.get("y"))
 	eventName = evento.get("name")
 	if eventName == "click_left":
-		pyautogui.click
+		pyautogui.click()
 	else :
 		pyautogui.rightClick()
 
