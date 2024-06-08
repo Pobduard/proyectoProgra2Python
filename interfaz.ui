@@ -203,7 +203,7 @@ QToolButton:hover {
       <string>Nombre del bloque: </string>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_3">
+    <widget class="QToolButton" name="INICIAR">
      <property name="geometry">
       <rect>
        <x>400</x>
@@ -219,9 +219,10 @@ QToolButton:hover {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
+}
 
-
- 
+QToolButton:hover {
+    background-color: #3e8e41;
 }</string>
      </property>
      <property name="text">
