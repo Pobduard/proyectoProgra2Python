@@ -104,6 +104,29 @@ QToolButton:hover {
     <property name="frameShadow">
      <enum>QFrame::Shadow::Raised</enum>
     </property>
+    <widget class="QScrollArea" name="scrollArea1">
+     <property name="geometry">
+      <rect>
+       <x>-10</x>
+       <y>-8</y>
+       <width>503</width>
+       <height>441</height>
+      </rect>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>503</width>
+        <height>441</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QFrame" name="frame_4">
@@ -250,6 +273,7 @@ QToolButton:hover {
     <property name="frameShadow">
      <enum>QFrame::Shadow::Raised</enum>
     </property>
+    <layout class="QGridLayout" name="gridLayout"/>
    </widget>
   </widget>
  </widget>

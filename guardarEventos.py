@@ -6,6 +6,7 @@ import sys
 from PyQt6 import uic #importar lo necesario para las interfaces graficas
 from PyQt6.QtWidgets import * # importar todos los widgets de la interfaz grafica
 from PyQt6 import QtCore
+from PyQt6.QtCore import QSize
 
 initialTime: float
 tiempoPrevio: float
@@ -151,11 +152,26 @@ class Pantalla(QDialog):
 		print("Preparado para Ejecutar Json ...")
 
 	def IniciarBoton(self):
-		global grabarJson
-		if(grabarJson):
-			grabar()
-		else:
-			ejecutar()
+		self.widget = QWidget()#este elemento contrendra el layout
+		self.layout = QVBoxLayout()#en este layout podremos agregar elementos nuevos
+		self.layout.setContentsMargins(15, 20, 20, 20)#le pongo margenes a donde se ponen los labels que agregarre , porque sino quedan todos pegados a la izquierda
+		self.widget.setLayout(self.layout)
+		self.AreaDeBloques = self.scrollArea1#esta scroll area es para hacer el efecto ese de bajar entre los bloques
+		self.AreaDeBloques.setWidgetResizable(True)
+		self.AreaDeBloques.setWidget(self.widget)
+		
+
+
+		for i in range(1, 50):
+			label = QLabel(f"Label {i}")
+			self.layout.addWidget(label)
+			label.setFixedSize(QSize(220,60))
+			
+		#global grabarJson
+		#if(grabarJson):
+		#	grabar()
+		#else:
+		#	ejecutar()
 
 
 if __name__ == "__main__": #&name es una variable de python , contiene el nombre del script
