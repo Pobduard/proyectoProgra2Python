@@ -8,13 +8,16 @@ from PyQt6.QtWidgets import * # importar todos los widgets de la interfaz grafic
 from PyQt6 import QtCore
 from PyQt6.QtCore import QSize
 
+eventosDict: list[dict] = []
+keysList: list[str] = []
 initialTime: float
 tiempoPrevio: float
 mListener: mouse.Listener
 kListener: pynputKey.Listener
 grabarJson: bool = False
-eventosDict: list[dict] = []
-keysPressed: list[str] = []
+mouseIsMoving: bool = False
+mouseIsDown: bool = False
+keyIsPressed: bool = False
 
 
 def eventoTeclado(tecla):
@@ -24,28 +27,80 @@ def eventoTeclado(tecla):
 		writeJson("secuencia", eventosDict, 2)
 
 
+def getLastEvent() -> dict:
+	last: dict
+	try:
+		last = eventosDict[-1]	#& Obtener el ultimo evento, pa revisar si es un movimiento reemplazarlo (ir directo al lugar)
+	except (IndexError):
+		last = {}	#& Json Vacio
+	return last
+
+def getEventTime() -> float:
+	global initialTime
+	global tiempoPrevio
+
+	tiempoActual: float = time.time() - initialTime
+	diff : float = tiempoActual - tiempoPrevio	#& diferencia de tiempos
+	print(f"actual: {tiempoActual:.6f} previo: {tiempoPrevio:.6f} diferencia {diff:.6f}")
+	tiempoPrevio = tiempoActual
+
+	return float(format(diff, ".6f"))
+
+
 def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
+	last = getLastEvent()
 	if pressed:
-		global initialTime
-		global tiempoPrevio
 
-		tiempoActual: float = time.time() - initialTime
-		diff : float = tiempoActual - tiempoPrevio	#& diferencia de tiempos
-		print(f"actual: {tiempoActual:.6f} previo: {tiempoPrevio:.6f} diferencia {diff:.6f}")
-		tiempoPrevio = tiempoActual
+		diff : float = getEventTime()
+		lastTime: float = last.get("timeSince")
+		resta: float = diff - lastTime	#& Resta en Segundos, segun windows el tiempo mayor pa un doble click son 500ms
+		if(last.get("name") == "click_left" and button == mouse.Button.left and resta <= 0.5):
+			last["timeSince"] = float(format((diff + lastTime), ".6f"))
+			last["times"] = last["times"] + 1
+			return
+
+		eventosDict.append({
+			"name" : f"click_{button.name}",
+			"timeSince" : diff,
+			"times" : 1,
+			"x" : x,
+			"y" : y
+		})
 
 
-		if button == mouse.Button.middle:
-			print("Botón medio presionado. Deteniendo el listener.")
-			return False
+def mouseMove(x: int, y:int):
+	last = getLastEvent()
+	diff: float = getEventTime()
+	if(last.get("name") == "mouseMove"):
+		lastTime: float = last.get("timeSince")
+		last["timeSince"] = float(format(lastTime+diff, ".6f"))	#& Tiempo anterior + el actual
+		last["x"] = x
+		last["y"] = y
+		return
+	else:
+		eventosDict.append({
+			"name" : "mouseMove",
+			"timeSince" : diff,
+			"x" : x,
+			"y" : y
+		})
 
-		if button == mouse.Button.left or button == mouse.Button.right:
-			eventosDict.append({
-				"name" : f"click_{button.name}",
-				"timeSince" : float(format(diff, ".3f")),
-				"x": x,
-				"y" : y
-			})
+
+def mouseScroll(x: int, y:int, dx: int, dy: int):
+	"""
+	x = pos del mouse en X
+	y = pos del mouse en Y
+	dx = Scroll Horitzontal al parecer
+	dy = Hacia donde se hizo scroll (Menor a 0 es pa arriba, mayor pa abajo)
+	"""
+	print(f"x:{x} | y:{y} | dx:{dx} | dy{dy}")
+	diff: float = getEventTime()
+	eventosDict.append({
+		"name" : "mouseScroll",
+		"timeSince" : diff,
+		"dx" : dx,
+		"dy" : dy
+	})
 
 
 def keyPress(key: pynputKey.Key):
@@ -57,11 +112,13 @@ def keyRelease(key: pynputKey.Key):
 		global mListener, kListener, window
 		mListener.stop()	#& MouseListener Detenido
 		kListener.stop()	#& KeyListener Detenido
-		writeJson("secuencia", eventosDict, 2)	#& Modificar Json
-		print("Nuevo Json Guardado")
+		# writeJson("secuencia", eventosDict, 2)	#& Modificar Json
+		# print("Nuevo Json Guardado")
 		# window.showNormal()
 		# window.show()
 		# window.update()
+		callEventos(eventosDict)
+
 
 def main():
 	global window
@@ -96,6 +153,7 @@ def main():
 	# 	dicc = readJson("secuence")	#& Tambien imprime el json leido, de momento almenos
 	# 	callEventos(dicc)
 
+
 def grabar():
 	global initialTime	#& Para cambiar directamente los valores de las variables globales (Si no solo seria dentro de esta funcion)
 	global tiempoPrevio
@@ -107,7 +165,7 @@ def grabar():
 	initialTime = time.time()
 	tiempoPrevio = 0.0
 
-	with mouse.Listener(on_click=mouseClick) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
+	with mouse.Listener(on_click=mouseClick, on_move=mouseMove, on_scroll=mouseScroll) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
 			global mListener, kListener
 			mListener = mouseListener	#& Asignarlos a las variables globales
 			kListener = keyListener
@@ -115,9 +173,11 @@ def grabar():
 			mListener.join()
 			kListener.join()
 
+
 def ejecutar():
 	diccionarioJson: dict = readJson("secuencia")
 	callEventos(diccionarioJson)
+
 
 class Pantalla(QDialog):
 
@@ -159,11 +219,11 @@ class Pantalla(QDialog):
 		self.AreaDeBloques = self.scrollArea1#esta scroll area es para hacer el efecto ese de bajar entre los bloques
 		self.AreaDeBloques.setWidgetResizable(True)
 		self.AreaDeBloques.setWidget(self.widget)
-		
 
 
 		for i in range(1, 50):
 			label = QLabel(f"Label {i}")
+			# label.setStyleSheet(u"QLabel{text-align: center;}")
 			self.layout.addWidget(label)
 			label.setFixedSize(QSize(220,60))
 			
@@ -177,4 +237,5 @@ class Pantalla(QDialog):
 if __name__ == "__main__": #&name es una variable de python , contiene el nombre del script
 							#& osea aqui preguntamos , si este script es el modulo principal
 							#+ Asi es, y por eso metere la funcion "main" aqui
-	main()
+	# main()
+	grabar()
