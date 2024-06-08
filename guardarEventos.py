@@ -5,10 +5,15 @@ from eventos import *
 import sys
 from PyQt6 import uic #importar lo necesario para las interfaces graficas
 from PyQt6.QtWidgets import * # importar todos los widgets de la interfaz grafica
+from PyQt6 import QtCore
 
+initialTime: float
+tiempoPrevio: float
+mListener: mouse.Listener
+kListener: pynputKey.Listener
+grabarJson: bool = False
 eventosDict: list[dict] = []
 keysPressed: list[str] = []
-
 
 
 def eventoTeclado(tecla):
@@ -48,58 +53,112 @@ def keyPress(key: pynputKey.Key):
 
 def keyRelease(key: pynputKey.Key):
 	if key == pynputKey.Key.esc:
-		mouseListener.stop()
-		return False
+		global mListener, kListener, window
+		mListener.stop()	#& MouseListener Detenido
+		kListener.stop()	#& KeyListener Detenido
+		writeJson("secuencia", eventosDict, 2)	#& Modificar Json
+		print("Nuevo Json Guardado")
+		# window.showNormal()
+		# window.show()
+		# window.update()
+
+def main():
+	global window
+	app = QApplication(sys.argv)
+	window = Pantalla()
+	sys.exit(app.exec())
+
+	#& Todo ese codigo anterior en comentarios pa evitar eliminar cosas utiles, de momento
+	# global initialTime	#& Para cambiar directamente los valores de las variables globales (Si no solo seria dentro de esta funcion)
+	# global tiempoPrevio
+	# global grabarJson
+
+	# desicion = input("Desea Grabar el Json? (y/n) : si no lo graba se ejecutara el ya guardado\n") #& Pa diferenciar despues cuando andamos guardando o ejecutando la secuencia del Json
+	# if desicion.lower() == "y":
+	# 	grabarJson = True
+	# else:
+	# 	grabarJson = False
 
 
+	# initialTime = time.time()
+	# tiempoPrevio = 0.0
+	# if grabarJson:
+	# 	with mouse.Listener(on_click=mouseClick) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
+	# 		mouseListener.join()
+	# 		keyListener.join()
+		
 
-print("Iniciado")
-desicion = input("Desea Grabar el Json? (y/n) : si no lo graba se ejecutara el ya guardado") #& Pa diferenciar despues cuando andamos guardando o ejecutando la secuencia del Json
-if desicion.lower() == "y":
-	grabarJson = True
-else:
-	grabarJson = False
+	# 	keyboard.on_press(eventoTeclado)
+	# 	keyboard.wait("esc")
 
+	# else:
+	# 	dicc = readJson("secuence")	#& Tambien imprime el json leido, de momento almenos
+	# 	callEventos(dicc)
 
-initialTime: float = time.time()
-tiempoPrevio: float = 0.0
-if grabarJson:
+def grabar():
+	global initialTime	#& Para cambiar directamente los valores de las variables globales (Si no solo seria dentro de esta funcion)
+	global tiempoPrevio
+	global grabarJson
+	global window
+
+	# window.showMinimized()
+
+	initialTime = time.time()
+	tiempoPrevio = 0.0
+
 	with mouse.Listener(on_click=mouseClick) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
-		mouseListener.join()
-		keyListener.join()
-	
+			global mListener, kListener
+			mListener = mouseListener	#& Asignarlos a las variables globales
+			kListener = keyListener
+			print("Pulsa \"escape\" para terminar la grabacion (Aun No graba Teclas, no lo eh combinado - Jaiber)")
+			mListener.join()
+			kListener.join()
 
-	keyboard.on_press(eventoTeclado)
-	keyboard.wait("esc")
+def ejecutar():
+	diccionarioJson: dict = readJson("secuencia")
+	callEventos(diccionarioJson)
 
-else:
-	dicc = readJson("secuence")	#& Tambien imprime el json leido, de momento almenos
-	callEventos(dicc)
+class Pantalla(QDialog):
 
-
-
-
-
-class pantalla(QDialog):
 	def __init__(self):
-		super(pantalla, self).__init__()
+		super(Pantalla, self).__init__()
 		uic.loadUi("interfaz.ui", self)
 		self.setWindowTitle("mas nunca en mi vida usare python")
 		self.frames = []
+		self.botonGrabar: QToolButton = self.GRABAR
+		self.botonEjecutar: QToolButton = self.EJECUTAR
+		self.botonIniciar: QToolButton = self.INICIAR 
+		self.labelApartado: QLabel = self.TextoDelApartado
 
 		self.show()
 
-		self.GRABAR.clicked.connect(self.TextoGrabar)
-		self.EJECUTAR.clicked.connect(self.TextoEjecutar)
+		self.botonGrabar.clicked.connect(self.TextoGrabar)
+		self.botonEjecutar.clicked.connect(self.TextoEjecutar)
+		self.botonIniciar.clicked.connect(self.IniciarBoton)
 
 	def TextoGrabar(self) :
-		self.TextoDelApartado.setText("Grabe o seleccione una secuencia para ser mostrada.")
+		self.labelApartado.setText("Grabe o seleccione una secuencia para ser mostrada.")
+		global grabarJson
+		grabarJson = True	#& Se grabara el Json cuando se pulde el boton de iniciar
+		self.botonIniciar.setText("Grabar >")
+		print("Preparado para Grabar Json ...")
 
 	def TextoEjecutar(self) :
-		self.TextoDelApartado.setText("Secuencia:")    
+		self.labelApartado.setText("Secuencia:")    
+		global grabarJson
+		grabarJson = False	#& Se ejecutara/Creara (idk) cuando se pulse el boton de iniciar
+		self.botonIniciar.setText("Ejecutar >")
+		print("Preparado para Ejecutar Json ...")
 
-if __name__ == "__main__": #name es una variable de python , contiene el nombre del script
-                            # osea aqui preguntamos , si este script es el modulo principal
-    app = QApplication(sys.argv)
-    dia = pantalla()
-    sys.exit(app.exec())      	
+	def IniciarBoton(self):
+		global grabarJson
+		if(grabarJson):
+			grabar()
+		else:
+			ejecutar()
+
+
+if __name__ == "__main__": #&name es una variable de python , contiene el nombre del script
+							#& osea aqui preguntamos , si este script es el modulo principal
+							#+ Asi es, y por eso metere la funcion "main" aqui
+	main()

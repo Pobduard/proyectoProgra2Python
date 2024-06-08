@@ -1,26 +1,14 @@
 [
   {
     "name": "click_left",
-    "timeSince": 5.302,
-    "x": 527,
-    "y": 176
+    "timeSince": 0.682,
+    "x": 1126,
+    "y": 515
   },
   {
     "name": "click_left",
-    "timeSince": 2.197,
-    "x": 730,
-    "y": 344
-  },
-  {
-    "name": "click_right",
-    "timeSince": 2.284,
-    "x": 349,
-    "y": 195
-  },
-  {
-    "name": "click_left",
-    "timeSince": 0.899,
-    "x": 310,
-    "y": 200
+    "timeSince": 0.655,
+    "x": 812,
+    "y": 554
   }
 ]

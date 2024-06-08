@@ -2,7 +2,6 @@ import keyboard
 import pynput
 import pyautogui as pgui
 
-
 def keyPress(key: pynput.keyboard.Key):
 	# print(key)
 	print("Cant de Teclas Pulsadas Actualmente:", len(currentPress))
