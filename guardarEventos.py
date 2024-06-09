@@ -140,10 +140,6 @@ class Pantalla(QDialog):
 		self.AreaDeBloques2.setWidgetResizable(True)
 		self.AreaDeBloques2.setWidget(self.widgetDerecha)
 
-
-
-
-
 		#apartado de la izquierda
 		self.widgetIzquierda = QWidget()#este elemento contrendra el layout
 		self.layoutIzquierda = QVBoxLayout()#en este layout podremos agregar elementos nuevos
@@ -185,16 +181,13 @@ class Pantalla(QDialog):
 
 
 	def IniciarBoton(self):
-		ListaBotones = []
 		for i in range(1, 50):
 			self.botonSecuencia = QToolButton()
 			self.layoutIzquierda.addWidget(self.botonSecuencia)
-			#self.layoutDerecha.addWidget(self.botonSecuencia2)
 			self.botonSecuencia.setFixedSize(QSize(220,60))
 			self.botonSecuencia.setProperty("direccionDeLaSecuencia",f"secuencia{i}.json")
 			self.botonSecuencia.setText(f"secuencia{i}")
 			self.botonSecuencia.clicked.connect(self.manejar_click)
-			ListaBotones.append(self.botonSecuencia)
 
 		#global grabarJson
 		#if(grabarJson):
