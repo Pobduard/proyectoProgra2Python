@@ -15,10 +15,12 @@ def callEventos(diccionario: list[dict]):
 		eventName: str = evento.get("name")
 
 		match eventName:
-			case "click_left":
+			case "click_left" | "click_middle" | "click-right":
 				mouseClick(evento)
-			case "click_right":
-				mouseClick(evento)
+			case "mouseDown":
+				mouseDown(evento)
+			case "mouseUp":
+				mouseUp(evento)
 			case "mouseMove":
 				mouseMove(evento)
 			case "mouseScroll":
@@ -48,6 +50,34 @@ def mouseScroll(evento: dict):
 	"""
 	control = pynput.mouse.Controller()
 	pynput.mouse.Controller.scroll(control, evento.get("dx"), evento.get("dy"))
+	del control
+
+def mouseDown(evento: dict):
+	control = pynput.mouse.Controller()
+	boton: pynput.mouse.Button
+
+	if(evento.get("button") == "left"):
+		boton = pynput.mouse.Button.left
+	elif(evento.get("button") == "middle"):
+		boton = pynput.mouse.Button.middle
+	elif(evento.get("button") == "right"):
+		boton = pynput.mouse.Button.right
+	pynput.mouse.Controller.press(control, boton)
+
+	del control
+
+def mouseUp(evento: dict):
+	control = pynput.mouse.Controller()
+	boton: pynput.mouse.Button
+
+	if(evento.get("button") == "left"):
+		boton = pynput.mouse.Button.left
+	elif(evento.get("button") == "middle"):
+		boton = pynput.mouse.Button.middle
+	elif(evento.get("button") == "right"):
+		boton = pynput.mouse.Button.right
+	pynput.mouse.Controller.release(control, boton)
+
 	del control
 
 def writeJson(name: str, lista: list[dict], indentacion: int = 2):

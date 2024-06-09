@@ -35,42 +35,91 @@ def getLastEvent() -> dict:
 		last = {}	#& Json Vacio
 	return last
 
-def getEventTime() -> float:
+
+def getEventTime(isEvent: bool = True) -> float:
+	"""
+	- Retorna por default la diferencia de tiempo desde el ultimo evento
+	- Si se le pasa `False` entonces retorna el tiempo desde el ultimo evento, mas no modifica ese tiempo (no cuenta como "evento")
+	"""
 	global initialTime
 	global tiempoPrevio
 
 	tiempoActual: float = time.time() - initialTime
 	diff : float = tiempoActual - tiempoPrevio	#& diferencia de tiempos
-	print(f"actual: {tiempoActual:.6f} previo: {tiempoPrevio:.6f} diferencia {diff:.6f}")
-	tiempoPrevio = tiempoActual
+	# print(f"actual: {tiempoActual:.6f} previo: {tiempoPrevio:.6f} diferencia {diff:.6f}")
+	if isEvent:
+		tiempoPrevio = tiempoActual
 
 	return float(format(diff, ".6f"))
 
 
 def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 	last = getLastEvent()
+	mousePressTime: float
+	mouseReleaseTime: float
 	if pressed:
+		mousePressTime = getEventTime(False)
+	else:
+		mouseReleaseTime = getEventTime(False)
+
+	mouseDownDuration: float = mouseReleaseTime - mousePressTime
+	print("Duration:", mouseDownDuration)
+	if(mouseDownDuration <= 0.15):	#& Decimos que se hizo un click y no un hold
+		lastTime: float
+		if last == {}:
+			lastTime = 0
+		else:
+			lastTime = last.get("timeSince")
 
 		diff : float = getEventTime()
-		lastTime: float = last.get("timeSince")
-		resta: float = diff - lastTime	#& Resta en Segundos, segun windows el tiempo mayor pa un doble click son 500ms
+		resta: float = float(format(diff - lastTime, ".6f"))	#& Resta en Segundos, segun windows el tiempo mayor pa un doble click son 500ms
 		if(last.get("name") == "click_left" and button == mouse.Button.left and resta <= 0.5):
-			last["timeSince"] = float(format((diff + lastTime), ".6f"))
-			last["times"] = last["times"] + 1
-			return
+			if(last.get("x") == x and last.get("y") == y):	#& Si es un click en la misma posocion en menos de medio segundo
+				last["timeSince"] = float(format((diff + lastTime), ".6f"))
+				last["times"] = last["times"] + 1
+				# print(f"PastLeftClick times:{last["times"]} | Diff:{diff:.6f} - LastTime:{lastTime:.6f} = Resta:{resta:.6f}")
+				return
 
-		eventosDict.append({
-			"name" : f"click_{button.name}",
+		if button == mouse.Button.left:
+			print("LeftClick")
+			eventosDict.append({
+				"name" : f"click_{button.name}",
+				"timeSince" : diff,
+				"times" : 1,	#& times es solo necesario y posible en el click izquierdo
+				"x" : x,
+				"y" : y
+			})
+		else:
+			print("SomeClick")
+			eventosDict.append({
+				"name" : f"click_{button.name}",
+				"timeSince" : diff,
+				"x" : x,
+				"y" : y
+			})
+	else:	#& Decimos que es un hold
+		diff : float = getEventTime()
+		hold = {
+			"name" : "mouseDown",
 			"timeSince" : diff,
-			"times" : 1,
-			"x" : x,
-			"y" : y
-		})
+			"button" : f"{button.name}"
+		}
+		release = {
+			"name" : "mouseUp",
+			"timeSince" : mouseDownDuration,
+			"button" : f"{button.name}"
+		}
+		if(last.get("name") == "mouseMove"):	#& Si se hizo un movimiento antes del hold, o mejor dicho, probablemente durante
+			eventosDict.insert(-1, hold)	#& inserto el Hold antes del movimiento
+			eventosDict.append(release)		#& Añado el Release despues del movimiento
+		else:
+			eventosDict.append(hold)
+			eventosDict.append(release)
 
 
 def mouseMove(x: int, y:int):
+	diff: float = getEventTime(False)
 	last = getLastEvent()
-	diff: float = getEventTime()
 	if(last.get("name") == "mouseMove"):
 		lastTime: float = last.get("timeSince")
 		last["timeSince"] = float(format(lastTime+diff, ".6f"))	#& Tiempo anterior + el actual
@@ -78,6 +127,7 @@ def mouseMove(x: int, y:int):
 		last["y"] = y
 		return
 	else:
+		diff = getEventTime()
 		eventosDict.append({
 			"name" : "mouseMove",
 			"timeSince" : diff,
@@ -93,7 +143,7 @@ def mouseScroll(x: int, y:int, dx: int, dy: int):
 	dx = Scroll Horitzontal al parecer
 	dy = Hacia donde se hizo scroll (Menor a 0 es pa arriba, mayor pa abajo)
 	"""
-	print(f"x:{x} | y:{y} | dx:{dx} | dy{dy}")
+	# print(f"x:{x} | y:{y} | dx:{dx} | dy{dy}")
 	diff: float = getEventTime()
 	eventosDict.append({
 		"name" : "mouseScroll",
@@ -238,4 +288,4 @@ if __name__ == "__main__": #&name es una variable de python , contiene el nombre
 							#& osea aqui preguntamos , si este script es el modulo principal
 							#+ Asi es, y por eso metere la funcion "main" aqui
 	# main()
-	grabar()
+	grabar()	#& Probando directamente los listener, sin nececidad de la GUI
