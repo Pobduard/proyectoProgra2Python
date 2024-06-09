@@ -131,6 +131,24 @@ class Pantalla(QDialog):
 		self.botonIniciar: QToolButton = self.INICIAR 
 		self.labelApartado: QLabel = self.TextoDelApartado
 
+		#apartado de la derecha 
+		self.widgetDerecha = QWidget()#este elemento contrendra el layout
+		self.layoutDerecha = QVBoxLayout()#en este layout podremos agregar elementos nuevos
+		self.layoutDerecha.setContentsMargins(15, 20, 20, 20)#le pongo margenes a donde se ponen los labels que agregarre , porque sino quedan todos pegados a la izquierda
+		self.widgetDerecha.setLayout(self.layoutDerecha)
+		self.AreaDeBloques2 = self.scrollArea2#esta scroll area es para hacer el efecto ese de bajar entre los bloques
+		self.AreaDeBloques2.setWidgetResizable(True)
+		self.AreaDeBloques2.setWidget(self.widgetDerecha)
+
+		#apartado de la izquierda
+		self.widgetIzquierda = QWidget()#este elemento contrendra el layout
+		self.layoutIzquierda = QVBoxLayout()#en este layout podremos agregar elementos nuevos
+		self.layoutIzquierda.setContentsMargins(15, 20, 20, 20)#le pongo margenes a donde se ponen los labels que agregarre , porque sino quedan todos pegados a la izquierda
+		self.widgetIzquierda.setLayout(self.layoutIzquierda)
+		self.AreaDeBloques = self.scrollArea1#esta scroll area es para hacer el efecto ese de bajar entre los bloques
+		self.AreaDeBloques.setWidgetResizable(True)
+		self.AreaDeBloques.setWidget(self.widgetIzquierda)
+
 		self.show()
 
 		self.botonGrabar.clicked.connect(self.TextoGrabar)
@@ -151,22 +169,26 @@ class Pantalla(QDialog):
 		self.botonIniciar.setText("Ejecutar >")
 		print("Preparado para Ejecutar Json ...")
 
+	def manejar_click(self):
+		boton = self.sender()  # Obtiene el botón que envió la señal
+		self.nuevoBoton = QToolButton()
+		self.nuevoBoton.setProperty("direccionDeLaSecuencia",boton.property("direccionDeLaSecuencia"))
+		self.nuevoBoton.setText(boton.text())
+		self.layoutDerecha.addWidget(self.nuevoBoton)
+		direccion = boton.property("direccionDeLaSecuencia")
+		print(f"Botón presionado: {direccion}")
+		print(f"Botón presionado: {self.nuevoBoton.property("direccionDeLaSecuencia")}")
+
+
 	def IniciarBoton(self):
-		self.widget = QWidget()#este elemento contrendra el layout
-		self.layout = QVBoxLayout()#en este layout podremos agregar elementos nuevos
-		self.layout.setContentsMargins(15, 20, 20, 20)#le pongo margenes a donde se ponen los labels que agregarre , porque sino quedan todos pegados a la izquierda
-		self.widget.setLayout(self.layout)
-		self.AreaDeBloques = self.scrollArea1#esta scroll area es para hacer el efecto ese de bajar entre los bloques
-		self.AreaDeBloques.setWidgetResizable(True)
-		self.AreaDeBloques.setWidget(self.widget)
-		
-
-
 		for i in range(1, 50):
-			label = QLabel(f"Label {i}")
-			self.layout.addWidget(label)
-			label.setFixedSize(QSize(220,60))
-			
+			self.botonSecuencia = QToolButton()
+			self.layoutIzquierda.addWidget(self.botonSecuencia)
+			self.botonSecuencia.setFixedSize(QSize(220,60))
+			self.botonSecuencia.setProperty("direccionDeLaSecuencia",f"secuencia{i}.json")
+			self.botonSecuencia.setText(f"secuencia{i}")
+			self.botonSecuencia.clicked.connect(self.manejar_click)
+
 		#global grabarJson
 		#if(grabarJson):
 		#	grabar()
