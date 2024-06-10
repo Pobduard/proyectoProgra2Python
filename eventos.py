@@ -2,7 +2,7 @@
 Aqui se encuentran todos los eventos creados hasta el momento, y la funcion para llamarlos
 """
 
-import time, pyautogui, json, pynput
+import time, pyautogui, json, pynput, os, re
 
 def callEventos(diccionario: list[dict]):
 	"""
@@ -89,7 +89,7 @@ def writeJson(name: str, lista: list[dict], indentacion: int = 2):
 	"""
 
 	fileIn = json.dumps(lista, indent=indentacion)
-	with open(f"./{name}.json", "w") as fileOut:
+	with open(f"./secuenciasUsuario/{name}.json", "w") as fileOut:
 		fileOut.write(fileIn)
 
 def readJson(name: str):
@@ -103,3 +103,17 @@ def readJson(name: str):
 
 	# print(dicc, "\n")
 	return dicc	
+
+def sortNumberNames(fileName):
+	found = re.search(r"\d+", fileName)
+	return int(found.group()) if found else 0
+
+def getJsons(path: str = "./secuenciasUsuario") -> list[str]:
+	#& el .json se podria eliminar de aqui si se desea
+	listaFiles: list[str] = os.listdir(path)
+	listaJsonNames: list[str] = [j for j in listaFiles if j.endswith(".json")]
+	listaJsonNames = sorted(listaJsonNames, key=str.lower)
+	listaJsonNames = sorted(listaJsonNames, key=sortNumberNames)
+	print(listaJsonNames)
+	return listaJsonNames
+
