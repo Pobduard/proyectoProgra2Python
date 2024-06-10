@@ -7,6 +7,7 @@ from PyQt6 import uic #importar lo necesario para las interfaces graficas
 from PyQt6.QtWidgets import * # importar todos los widgets de la interfaz grafica
 from PyQt6 import QtCore
 from PyQt6.QtCore import QSize
+from datetime import datetime
 
 eventosDict: list[dict] = []
 keysList: list[str] = []
@@ -299,6 +300,7 @@ class Pantalla(QDialog):
 		self.botonEjecutar: QToolButton = self.EJECUTAR
 		self.botonIniciar: QToolButton = self.INICIAR 
 		self.labelApartado: QLabel = self.TextoDelApartado
+		
 
 		#apartado de la derecha 
 		self.widgetDerecha = QWidget()#este elemento contrendra el layout
@@ -319,16 +321,23 @@ class Pantalla(QDialog):
 		self.AreaDeBloques.setWidget(self.widgetIzquierda)
 
 		self.show()
+		self.IniciarBloques()
 
 		self.botonGrabar.clicked.connect(self.TextoGrabar)
 		self.botonEjecutar.clicked.connect(self.TextoEjecutar)
 		self.botonIniciar.clicked.connect(self.BotonIniciar)
+
+	def eliminarBloquesDerecha(self):
+		for i in range (self.layoutDerecha.count()):
+			bloque = self.layoutDerecha.itemAt(i).widget()
+			bloque.deleteLater()
 
 	def TextoGrabar(self) :
 		self.labelApartado.setText("Grabe o seleccione una secuencia para ser mostrada.")
 		global grabarJson
 		grabarJson = True	#& Se grabara el Json cuando se pulde el boton de iniciar
 		self.botonIniciar.setText("Grabar >")
+		self.eliminarBloquesDerecha()
 		print("Preparado para Grabar Json ...")
 
 	def TextoEjecutar(self) :
@@ -338,7 +347,45 @@ class Pantalla(QDialog):
 		self.botonIniciar.setText("Ejecutar >")
 		print("Preparado para Ejecutar Json ...")
 
+	def AgregarNuevoBloque(self):
+		global grabarJson
+		self.IngresoDeNombre:QLineEdit = self.lineEdit
+		self.NombreNuevoBloque = self.IngresoDeNombre.text()
+		self.nuevoBoton = QToolButton()
+		self.nuevoBoton.setStyleSheet("""
+	QToolButton {
+		background: #FF4A1C;
+		color: #fff;
+		padding: 10px 20px;
+		border: none;
+		border-radius: 3px;
+		min-width: 148px;
+		min-height: 10px;
+		max-width: 148px;
+		max-height: 10px;
+	}
+	QToolButton:hover {
+		background-color: blue;
+		color: white;
+	}
+""")
+
+
+		if(self.NombreNuevoBloque == ""):
+			self.NombreNuevoBloque = str(datetime.now())	
+
+		self.nuevoBoton.setText(self.NombreNuevoBloque)
+		self.nuevoBoton.setProperty("direccionDeLaSecuencia", f"{self.NombreNuevoBloque}.json")	
+		self.layoutIzquierda.addWidget(self.nuevoBoton)
+		self.nuevoBoton.clicked.connect(self.manejar_click)
+		self.IngresoDeNombre.clear()
+		grabarJson = False
+		self.botonIniciar.setText("Ejecutar >")
+
+
+
 	def manejar_click(self):
+		global grabarJson
 		boton = self.sender()  # Obtiene el botón que envió la señal
 		self.nuevoBoton = QToolButton()
 		self.nuevoBoton.setStyleSheet("""
@@ -358,20 +405,34 @@ class Pantalla(QDialog):
 		color: white;
 	}
 """)		
-		self.nuevoBoton.setProperty("direccionDeLaSecuencia",boton.property("direccionDeLaSecuencia"))
-		self.nuevoBoton.setText(boton.text())
-		self.layoutDerecha.addWidget(self.nuevoBoton)
-		direccion = boton.property("direccionDeLaSecuencia")
-		print(f"Botón presionado: {direccion}")
-		print(f"Botón presionado: {self.nuevoBoton.property("direccionDeLaSecuencia")}")
+		
+
+		if(grabarJson == False):
+			self.nuevoBoton.setProperty("direccionDeLaSecuencia",boton.property("direccionDeLaSecuencia"))
+			self.nuevoBoton.setText(boton.text())
+			self.layoutDerecha.addWidget(self.nuevoBoton)
+			direccion = boton.property("direccionDeLaSecuencia")
+			print(f"Botón presionado: {direccion}")
+			print(f"Botón presionado: {self.nuevoBoton.property("direccionDeLaSecuencia")}")
+			self.botonSecuencia.clicked.connect(self.manejar_click)
+
+
+
+
+			
+			
+
 
 	def BotonIniciar(self):
 		global grabarJson
 		if(grabarJson):
-			grabar()
+			self.AgregarNuevoBloque()
+			#grabar()
 		else:
-			ejecutar()
-		self.IniciarBloques()
+			if(self.layoutDerecha.count() != 0):
+				ejecutar()
+			
+			
 
 	def IniciarBloques(self):
 		secuenciasUsuario: list[str] = getJsons()
