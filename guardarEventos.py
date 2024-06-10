@@ -344,21 +344,21 @@ class Pantalla(QDialog):
 		boton = self.sender()  # Obtiene el botón que envió la señal
 		self.nuevoBoton = QToolButton()
 		self.nuevoBoton.setStyleSheet("""
-    	QToolButton {
-        background: #F24236;
-  		color: #fff;
-  		padding: 10px 20px;
-  		border: none;
-  		border-radius: 5px;
-   		min-width: 420px;
-    	min-height: 30px;
-    	max-width: 420px;
-    	max-height: 30px;
-    }
-    QToolButton:hover {
-        background-color: blue;
-        color: white;
-    }
+		QToolButton {
+		background: #F24236;
+		color: #fff;
+		padding: 10px 20px;
+		border: none;
+		border-radius: 5px;
+		min-width: 420px;
+		min-height: 30px;
+		max-width: 420px;
+		max-height: 30px;
+	}
+	QToolButton:hover {
+		background-color: blue;
+		color: white;
+	}
 """)		
 		self.nuevoBoton.setProperty("direccionDeLaSecuencia",boton.property("direccionDeLaSecuencia"))
 		self.nuevoBoton.setText(boton.text())
@@ -372,21 +372,21 @@ class Pantalla(QDialog):
 		for i in range(1, 50):
 			self.botonSecuencia = QToolButton()
 			self.botonSecuencia.setStyleSheet("""
-    QToolButton {
-        background: #FF4A1C;
-  		color: #fff;
-  		padding: 10px 20px;
-  		border: none;
-  		border-radius: 3px;
-   		min-width: 148px;
-    	min-height: 10px;
-    	max-width: 148px;
-    	max-height: 10px;
-    }
-    QToolButton:hover {
-        background-color: blue;
-        color: white;
-    }
+	QToolButton {
+		background: #FF4A1C;
+		color: #fff;
+		padding: 10px 20px;
+		border: none;
+		border-radius: 3px;
+		min-width: 148px;
+		min-height: 10px;
+		max-width: 148px;
+		max-height: 10px;
+	}
+	QToolButton:hover {
+		background-color: blue;
+		color: white;
+	}
 """)
 			self.layoutIzquierda.addWidget(self.botonSecuencia)
 			self.botonSecuencia.setFixedSize(QSize(220,60))
