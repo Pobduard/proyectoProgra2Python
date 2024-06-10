@@ -149,11 +149,13 @@ class Pantalla(QDialog):
 		self.AreaDeBloques.setWidgetResizable(True)
 		self.AreaDeBloques.setWidget(self.widgetIzquierda)
 
+
+		self.IniciarBloques()
 		self.show()
 
 		self.botonGrabar.clicked.connect(self.TextoGrabar)
 		self.botonEjecutar.clicked.connect(self.TextoEjecutar)
-		self.botonIniciar.clicked.connect(self.IniciarBoton)
+		#self.botonIniciar.clicked.connect(self.IniciarBoton)
 
 	def TextoGrabar(self) :
 		self.labelApartado.setText("Grabe o seleccione una secuencia para ser mostrada.")
@@ -172,6 +174,23 @@ class Pantalla(QDialog):
 	def manejar_click(self):
 		boton = self.sender()  # Obtiene el botón que envió la señal
 		self.nuevoBoton = QToolButton()
+		self.nuevoBoton.setStyleSheet("""
+    	QToolButton {
+        background: #F24236;
+  		color: #fff;
+  		padding: 10px 20px;
+  		border: none;
+  		border-radius: 5px;
+   		min-width: 420px;
+    	min-height: 30px;
+    	max-width: 420px;
+    	max-height: 30px;
+    }
+    QToolButton:hover {
+        background-color: blue;
+        color: white;
+    }
+""")		
 		self.nuevoBoton.setProperty("direccionDeLaSecuencia",boton.property("direccionDeLaSecuencia"))
 		self.nuevoBoton.setText(boton.text())
 		self.layoutDerecha.addWidget(self.nuevoBoton)
@@ -180,9 +199,26 @@ class Pantalla(QDialog):
 		print(f"Botón presionado: {self.nuevoBoton.property("direccionDeLaSecuencia")}")
 
 
-	def IniciarBoton(self):
+	def IniciarBloques(self):
 		for i in range(1, 50):
 			self.botonSecuencia = QToolButton()
+			self.botonSecuencia.setStyleSheet("""
+    QToolButton {
+        background: #FF4A1C;
+  		color: #fff;
+  		padding: 10px 20px;
+  		border: none;
+  		border-radius: 3px;
+   		min-width: 148px;
+    	min-height: 10px;
+    	max-width: 148px;
+    	max-height: 10px;
+    }
+    QToolButton:hover {
+        background-color: blue;
+        color: white;
+    }
+""")
 			self.layoutIzquierda.addWidget(self.botonSecuencia)
 			self.botonSecuencia.setFixedSize(QSize(220,60))
 			self.botonSecuencia.setProperty("direccionDeLaSecuencia",f"secuencia{i}.json")

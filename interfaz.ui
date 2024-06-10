@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog{
-	background: #25282D
+	background: #1A1D22
 }</string>
   </property>
   <widget class="QFrame" name="frame">
@@ -29,7 +29,7 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QFrame{
-	background: #313338;
+	background: #25282D;
 	border-radius: 10px;
 }
 
@@ -50,6 +50,9 @@ QToolButton{
 QToolButton:hover {
     background-color: #3e8e41;
 }
+
+
+
 </string>
    </property>
    <property name="frameShape">
@@ -84,7 +87,7 @@ QToolButton:hover {
      <string>Ejecutar</string>
     </property>
    </widget>
-   <widget class="QFrame" name="frame_6">
+   <widget class="QScrollArea" name="scrollArea1">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -94,38 +97,35 @@ QToolButton:hover {
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QFrame{
-	background: #313338;
+     <string notr="true">background-color:#35383F;
+
+
+QToolButton{
+  background: #FF0043;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+    min-width: 70px;
+    min-height: 10px;
+    max-width: 70px;
+    max-height: 10px;
+
+ 
 }</string>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::Shape::StyledPanel</enum>
+    <property name="widgetResizable">
+     <bool>true</bool>
     </property>
-    <property name="frameShadow">
-     <enum>QFrame::Shadow::Raised</enum>
-    </property>
-    <widget class="QScrollArea" name="scrollArea1">
+    <widget class="QWidget" name="scrollAreaWidgetContents">
      <property name="geometry">
       <rect>
-       <x>-10</x>
-       <y>-8</y>
-       <width>503</width>
-       <height>441</height>
+       <x>0</x>
+       <y>0</y>
+       <width>231</width>
+       <height>421</height>
       </rect>
      </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>503</width>
-        <height>441</height>
-       </rect>
-      </property>
-     </widget>
     </widget>
    </widget>
   </widget>
@@ -160,7 +160,7 @@ QToolButton:hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background: #313338;
+	background: #25282D;
 	font-family:Helvetica;
 	font-weight: bold;
 }</string>
@@ -197,7 +197,7 @@ QToolButton:hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background: #35383F;
+	background: #25282D;
 	font-family:Helvetica;
 	font-weight: bold;
 }</string>
@@ -264,7 +264,7 @@ QToolButton:hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background: #35383F
+	background: #25282D
 }</string>
     </property>
     <property name="frameShape">
@@ -276,6 +276,9 @@ QToolButton:hover {
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QScrollArea" name="scrollArea2">
+       <property name="styleSheet">
+        <string notr="true">background:#35383F</string>
+       </property>
        <property name="widgetResizable">
         <bool>true</bool>
        </property>
