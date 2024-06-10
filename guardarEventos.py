@@ -318,13 +318,11 @@ class Pantalla(QDialog):
 		self.AreaDeBloques.setWidgetResizable(True)
 		self.AreaDeBloques.setWidget(self.widgetIzquierda)
 
-
-		self.IniciarBloques()
 		self.show()
 
 		self.botonGrabar.clicked.connect(self.TextoGrabar)
 		self.botonEjecutar.clicked.connect(self.TextoEjecutar)
-		#self.botonIniciar.clicked.connect(self.IniciarBoton)
+		self.botonIniciar.clicked.connect(self.BotonIniciar)
 
 	def TextoGrabar(self) :
 		self.labelApartado.setText("Grabe o seleccione una secuencia para ser mostrada.")
@@ -367,9 +365,17 @@ class Pantalla(QDialog):
 		print(f"Botón presionado: {direccion}")
 		print(f"Botón presionado: {self.nuevoBoton.property("direccionDeLaSecuencia")}")
 
+	def BotonIniciar(self):
+		global grabarJson
+		if(grabarJson):
+			grabar()
+		else:
+			ejecutar()
+		self.IniciarBloques()
 
 	def IniciarBloques(self):
-		for i in range(1, 50):
+		secuenciasUsuario: list[str] = getJsons()
+		for index, value in enumerate(secuenciasUsuario):
 			self.botonSecuencia = QToolButton()
 			self.botonSecuencia.setStyleSheet("""
 	QToolButton {
@@ -390,15 +396,9 @@ class Pantalla(QDialog):
 """)
 			self.layoutIzquierda.addWidget(self.botonSecuencia)
 			self.botonSecuencia.setFixedSize(QSize(220,60))
-			self.botonSecuencia.setProperty("direccionDeLaSecuencia",f"secuencia{i}.json")
-			self.botonSecuencia.setText(f"secuencia{i}")
+			self.botonSecuencia.setProperty("direccionDeLaSecuencia",f"secuencia{index}.json")
+			self.botonSecuencia.setText(value)
 			self.botonSecuencia.clicked.connect(self.manejar_click)
-
-		global grabarJson
-		if(grabarJson):
-			grabar()
-		else:
-			ejecutar()
 
 
 if __name__ == "__main__": #&name es una variable de python , contiene el nombre del script
