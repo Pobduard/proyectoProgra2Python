@@ -1,4 +1,4 @@
-import time
+import time, math
 from pynput import mouse, keyboard as pynputKey
 import keyboard
 from eventos import *
@@ -8,44 +8,205 @@ from PyQt6.QtWidgets import * # importar todos los widgets de la interfaz grafic
 from PyQt6 import QtCore
 from PyQt6.QtCore import QSize
 
+eventosDict: list[dict] = []
+keysList: list[str] = []
 initialTime: float
 tiempoPrevio: float
 mListener: mouse.Listener
 kListener: pynputKey.Listener
 grabarJson: bool = False
-eventosDict: list[dict] = []
-keysPressed: list[str] = []
+mouseIsMoving: bool = False
+mouseIsDown: bool = False
+keyIsPressed: bool = False
 
-
+""" 
 def eventoTeclado(tecla):
 	if keyboard.is_pressed("alt") and keyboard.is_pressed("ctrl") and tecla.name == "k":
 
 		callEventos(eventosDict)
 		writeJson("secuencia", eventosDict, 2)
+"""
+
+def getLastEvent() -> dict:
+	last: dict
+	try:
+		last = eventosDict[-1]	#& Obtener el ultimo evento, pa revisar si es un movimiento reemplazarlo (ir directo al lugar)
+	except (IndexError):
+		last = {}	#& Json Vacio
+	return last
 
 
-def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
-	if pressed:
-		global initialTime
-		global tiempoPrevio
+def getEventTime(isEvent: bool = True) -> float:
+	"""
+	- Retorna por default la diferencia de tiempo desde el ultimo evento
+	- Si se le pasa `False` entonces retorna el tiempo desde el ultimo evento, mas no modifica ese tiempo (no cuenta como "evento")
+	"""
+	global initialTime
+	global tiempoPrevio
 
-		tiempoActual: float = time.time() - initialTime
-		diff : float = tiempoActual - tiempoPrevio	#& diferencia de tiempos
-		print(f"actual: {tiempoActual:.6f} previo: {tiempoPrevio:.6f} diferencia {diff:.6f}")
+	tiempoActual: float = time.time() - initialTime
+	diff : float = tiempoActual - tiempoPrevio	#& diferencia de tiempos
+	# print(f"actual: {tiempoActual:.6f} previo: {tiempoPrevio:.6f} diferencia {diff:.6f}")
+	if isEvent:
 		tiempoPrevio = tiempoActual
 
+	return float(format(diff, ".6f"))
 
-		if button == mouse.Button.middle:
-			print("Botón medio presionado. Deteniendo el listener.")
-			return False
+""" 
+def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
+	last = getLastEvent()
+	mousePressTime: float = 0.0
+	mouseReleaseTime: float = 0.0
+	if pressed:
+		mousePressTime = getEventTime(False)
+	if not pressed:
+		mouseReleaseTime = getEventTime(False)
+	diff : float = getEventTime()
 
-		if button == mouse.Button.left or button == mouse.Button.right:
+	mouseDownDuration: float = diff - (mouseReleaseTime + mousePressTime)
+	print(f"DownDuration:{mouseDownDuration} = Release:{mouseReleaseTime} + Press:{mousePressTime} - diff:{diff}")	
+	if(mouseDownDuration <= 0.15):	#& Decimos que se hizo un click y no un hold
+		lastTime: float
+		if last == {}:
+			eventosDict.append({
+				"name" : "startPos",
+				"timeSince" : diff,
+				"x" : x,
+				"y" : y,
+			})
+			lastTime = 0
+		else:
+			lastTime = last.get("timeSince")
+
+		
+		resta: float = float(format(diff - lastTime, ".6f"))	#& Resta en Segundos, segun windows el tiempo mayor pa un doble click son 500ms
+		if(last.get("name") == "click_left" and button == mouse.Button.left and resta <= 0.5):
+			if(last.get("x") == x and last.get("y") == y):	#& Si es un click en la misma posocion en menos de medio segundo
+				last["timeSince"] = float(format((diff + lastTime), ".6f"))
+				last["times"] = last["times"] + 1
+				print(f"PastLeftClick times:{last["times"]} | Diff:{diff:.6f} - LastTime:{lastTime:.6f} = Resta:{resta:.6f}")
+				return
+
+		elif button == mouse.Button.left:
+			print("LeftClick")
 			eventosDict.append({
 				"name" : f"click_{button.name}",
-				"timeSince" : float(format(diff, ".3f")),
-				"x": x,
+				"timeSince" : diff,
+				"times" : 1,	#& times es solo necesario y posible en el click izquierdo
+				"x" : x,
 				"y" : y
 			})
+		else:
+			# print("SomeClick")
+			eventosDict.append({
+				"name" : f"click_{button.name}",
+				"timeSince" : diff,
+				"x" : x,
+				"y" : y
+			})
+
+	else:	#& Decimos que es un hold
+		diff : float = getEventTime()
+		hold = {
+			"name" : "mouseDown",
+			"timeSince" : diff,
+			"button" : f"{button.name}"
+		}
+		release = {
+			"name" : "mouseUp",
+			"timeSince" : mouseDownDuration,
+			"button" : f"{button.name}"
+		}
+		if(last.get("name") == "mouseMove"):	#& Si se hizo un movimiento antes del hold, o mejor dicho, probablemente durante
+			eventosDict.insert(-1, hold)	#& inserto el Hold antes del movimiento
+			eventosDict.append(release)		#& Añado el Release despues del movimiento
+		else:
+			eventosDict.append(hold)
+			eventosDict.append(release)
+"""
+
+def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
+	diff : float = getEventTime()
+	event: dict
+	if pressed:	#& Decimos que es un hold
+		event = {
+			"name" : "mouseDown",
+			"timeSince" : diff,
+			"button" : f"{button.name}"
+		}
+	else:
+		event = {
+			"name" : "mouseUp",
+			"timeSince" : diff,
+			"button" : f"{button.name}"
+		}
+	
+	eventosDict.append(event)
+	if not pressed: #& Si se solto el mouse
+		checkMouseClick(x, y, button)
+
+
+def checkMouseClick(x:int, y:int, button: mouse.Button):
+	mouseDownEvent: dict = eventosDict[-2]	#& Si los 2 ultimos, este es cuando se presiona
+	mouseUpEvent: dict = eventosDict[-1]	#& Si los 2 ultimos, este es cuando se libera
+	# print("\tDown:",mouseDownEvent)
+	# print("\tUp:",mouseUpEvent)
+
+	if (mouseUpEvent.get("name") != "mouseUp" and mouseDownEvent.get("name") != "mouseDown"):
+		return
+
+	#& Si llega aqui, es porque los 2 de arriba NO se cumplen, osea ambos son iguales
+	downTime: float = mouseDownEvent["timeSince"]
+	upTime: float = mouseUpEvent["timeSince"]
+	diff: float = abs(downTime - upTime)	#& Ver la diferencia de tiempo entre esos 2 eventos (abs porque aveces daba - , ya vale vrga, sigue siendo su diferencia)
+									#& se resta el down - up, porque el Up es el que muestra la diferencia real de tiempo entre ambos
+									#& Si el up es el que es los 150ms despues, entonces es que fue un hold, si no, un click
+
+	if(diff <= 0.15): #& Si la diferencia entre ambos click es menos de 150ms
+		# print(f"Count as Click | diff:{diff} = upTime:{upTime} - downTime:{downTime}")
+		eventosDict.pop()
+		eventosDict.pop()
+		eventosDict.append({
+				"name" : f"click_{button.name}",
+				"timeSince" : float(format(upTime+downTime, ".6f")),
+				"x" : x,
+				"y" : y
+			})
+
+
+def mouseMove(x: int, y:int):
+	diff: float = getEventTime()
+	last = getLastEvent()
+	if(last.get("name") == "mouseMove"):
+		lastTime: float = last.get("timeSince")
+		last["timeSince"] = float(format(lastTime+diff, ".6f"))	#& Tiempo anterior + el actual
+		last["x"] = x
+		last["y"] = y
+		return
+	else:
+		eventosDict.append({
+			"name" : "mouseMove",
+			"timeSince" : diff,
+			"x" : x,
+			"y" : y
+		})
+
+
+def mouseScroll(x: int, y:int, dx: int, dy: int):
+	"""
+	x = pos del mouse en X
+	y = pos del mouse en Y
+	dx = Scroll Horitzontal al parecer
+	dy = Hacia donde se hizo scroll (Menor a 0 es pa arriba, mayor pa abajo)
+	"""
+	# print(f"x:{x} | y:{y} | dx:{dx} | dy{dy}")
+	diff: float = getEventTime()
+	eventosDict.append({
+		"name" : "mouseScroll",
+		"timeSince" : diff,
+		"dx" : dx,
+		"dy" : dy
+	})
 
 
 def keyPress(key: pynputKey.Key):
@@ -62,6 +223,11 @@ def keyRelease(key: pynputKey.Key):
 		# window.showNormal()
 		# window.show()
 		# window.update()
+		# print("Start")
+		# callEventos(eventosDict)	#& TODO: Se tiene que eliminar de aqui despues al tener el boton pa ejecutar
+		# print("End")
+		return
+
 
 def main():
 	global window
@@ -96,6 +262,7 @@ def main():
 	# 	dicc = readJson("secuence")	#& Tambien imprime el json leido, de momento almenos
 	# 	callEventos(dicc)
 
+
 def grabar():
 	global initialTime	#& Para cambiar directamente los valores de las variables globales (Si no solo seria dentro de esta funcion)
 	global tiempoPrevio
@@ -107,7 +274,7 @@ def grabar():
 	initialTime = time.time()
 	tiempoPrevio = 0.0
 
-	with mouse.Listener(on_click=mouseClick) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
+	with mouse.Listener(on_click=mouseClick, on_move=mouseMove, on_scroll=mouseScroll) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
 			global mListener, kListener
 			mListener = mouseListener	#& Asignarlos a las variables globales
 			kListener = keyListener
@@ -115,9 +282,11 @@ def grabar():
 			mListener.join()
 			kListener.join()
 
+
 def ejecutar():
 	diccionarioJson: dict = readJson("secuencia")
 	callEventos(diccionarioJson)
+
 
 class Pantalla(QDialog):
 
@@ -225,14 +394,15 @@ class Pantalla(QDialog):
 			self.botonSecuencia.setText(f"secuencia{i}")
 			self.botonSecuencia.clicked.connect(self.manejar_click)
 
-		#global grabarJson
-		#if(grabarJson):
-		#	grabar()
-		#else:
-		#	ejecutar()
+		global grabarJson
+		if(grabarJson):
+			grabar()
+		else:
+			ejecutar()
 
 
 if __name__ == "__main__": #&name es una variable de python , contiene el nombre del script
 							#& osea aqui preguntamos , si este script es el modulo principal
 							#+ Asi es, y por eso metere la funcion "main" aqui
 	main()
+	# grabar()	#& Probando directamente los listener, sin nececidad de la GUI
