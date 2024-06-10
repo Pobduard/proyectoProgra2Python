@@ -11,21 +11,22 @@ def callEventos(diccionario: list[dict]):
 	esa funcion que llama es la que se encargara de realizar el evento como tal y el resto de sus valores
 	"""
 	for index, evento in enumerate(diccionario):
+		print(f"\tSleep: {evento.get("timeSince")}")
 		time.sleep(evento.get("timeSince"))
 		eventName: str = evento.get("name")
 
 		match eventName:
+			case "mouseMove" | "startPos":
+				mouseMove(evento)
 			case "click_left" | "click_middle" | "click-right":
 				mouseClick(evento)
 			case "mouseDown":
 				mouseDown(evento)
 			case "mouseUp":
 				mouseUp(evento)
-			case "mouseMove":
-				mouseMove(evento)
 			case "mouseScroll":
 				mouseScroll(evento)
-		print(evento)
+		print(f"\t\t|Evento{index}|: evento: {evento}")
 
 def mouseMove(evento: dict):
 	""" Mueve el Mouse a la Coordenada Enviada """
@@ -37,7 +38,7 @@ def mouseClick(evento: dict):
 	"""
 	eventName = evento.get("name")
 	if eventName == "click_left":
-		pyautogui.click(clicks=evento.get("times"))
+		pyautogui.click()
 	elif eventName == "click_right" :
 		pyautogui.rightClick()
 	elif eventName == "click_middle" :
@@ -100,5 +101,5 @@ def readJson(name: str):
 	with open(f"./{name}.json", "r") as fileIn:
 		dicc = json.load(fileIn)
 
-	print(dicc, "\n")
+	# print(dicc, "\n")
 	return dicc	
