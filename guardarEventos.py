@@ -5,15 +5,16 @@ from eventos import *
 import sys
 from PyQt6 import uic #importar lo necesario para las interfaces graficas
 from PyQt6.QtWidgets import * # importar todos los widgets de la interfaz grafica
-from PyQt6 import QtCore
-from PyQt6.QtCore import QSize
+from PyQt6.QtWidgets import QKeySequenceEdit
+from PyQt6 import QtCore, QtGui
+from PyQt6.QtCore import QSize, pyqtSignal
 
 eventosDict: list[dict] = []
 keysList: list[str] = []
 initialTime: float
 tiempoPrevio: float
-mListener: mouse.Listener
-kListener: pynputKey.Listener
+mListener: mouse.Listener | None = None
+kListener: pynputKey.Listener | None = None
 grabarJson: bool = False
 mouseIsMoving: bool = False
 mouseIsDown: bool = False
@@ -28,6 +29,7 @@ def eventoTeclado(tecla):
 """
 
 def getLastEvent() -> dict:
+	global eventosDict
 	last: dict
 	try:
 		last = eventosDict[-1]	#& Obtener el ultimo evento, pa revisar si es un movimiento reemplazarlo (ir directo al lugar)
@@ -126,6 +128,7 @@ def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 """
 
 def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
+	global eventosDict
 	diff : float = getEventTime()
 	event: dict
 	if pressed:	#& Decimos que es un hold
@@ -147,6 +150,7 @@ def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 
 
 def checkMouseClick(x:int, y:int, button: mouse.Button):
+	global eventosDict
 	mouseDownEvent: dict = eventosDict[-2]	#& Si los 2 ultimos, este es cuando se presiona
 	mouseUpEvent: dict = eventosDict[-1]	#& Si los 2 ultimos, este es cuando se libera
 	# print("\tDown:",mouseDownEvent)
@@ -175,6 +179,7 @@ def checkMouseClick(x:int, y:int, button: mouse.Button):
 
 
 def mouseMove(x: int, y:int):
+	global eventosDict
 	diff: float = getEventTime()
 	last = getLastEvent()
 	if(last.get("name") == "mouseMove"):
@@ -200,6 +205,7 @@ def mouseScroll(x: int, y:int, dx: int, dy: int):
 	dy = Hacia donde se hizo scroll (Menor a 0 es pa arriba, mayor pa abajo)
 	"""
 	# print(f"x:{x} | y:{y} | dx:{dx} | dy{dy}")
+	global eventosDict
 	diff: float = getEventTime()
 	eventosDict.append({
 		"name" : "mouseScroll",
@@ -215,18 +221,21 @@ def keyPress(key: pynputKey.Key):
 
 def keyRelease(key: pynputKey.Key):
 	if key == pynputKey.Key.esc:
-		global mListener, kListener, window
+		global mListener, kListener, window, grabarJson
 		mListener.stop()	#& MouseListener Detenido
 		kListener.stop()	#& KeyListener Detenido
-		writeJson("secuencia", eventosDict, 2)	#& Modificar Json
+		mListener = None
+		kListener = None
+		writeJson("testSecuencia", lista=eventosDict, indentacion=2)	#& Modificar Json
 		print("Nuevo Json Guardado")
+		grabarJson = False
+		window.end_grabar.emit()
 		# window.showNormal()
 		# window.show()
 		# window.update()
 		# print("Start")
 		# callEventos(eventosDict)	#& TODO: Se tiene que eliminar de aqui despues al tener el boton pa ejecutar
 		# print("End")
-		return
 
 
 def main():
@@ -234,46 +243,57 @@ def main():
 	app = QApplication(sys.argv)
 	window = Pantalla()
 	sys.exit(app.exec())
-
+	""" 
 	#& Todo ese codigo anterior en comentarios pa evitar eliminar cosas utiles, de momento
-	# global initialTime	#& Para cambiar directamente los valores de las variables globales (Si no solo seria dentro de esta funcion)
-	# global tiempoPrevio
-	# global grabarJson
-
-	# desicion = input("Desea Grabar el Json? (y/n) : si no lo graba se ejecutara el ya guardado\n") #& Pa diferenciar despues cuando andamos guardando o ejecutando la secuencia del Json
-	# if desicion.lower() == "y":
-	# 	grabarJson = True
-	# else:
-	# 	grabarJson = False
-
-
-	# initialTime = time.time()
-	# tiempoPrevio = 0.0
-	# if grabarJson:
-	# 	with mouse.Listener(on_click=mouseClick) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
-	# 		mouseListener.join()
-	# 		keyListener.join()
-		
-
-	# 	keyboard.on_press(eventoTeclado)
-	# 	keyboard.wait("esc")
-
-	# else:
-	# 	dicc = readJson("secuence")	#& Tambien imprime el json leido, de momento almenos
-	# 	callEventos(dicc)
-
-
-def grabar():
 	global initialTime	#& Para cambiar directamente los valores de las variables globales (Si no solo seria dentro de esta funcion)
 	global tiempoPrevio
 	global grabarJson
-	global window
+
+	desicion = input("Desea Grabar el Json? (y/n) : si no lo graba se ejecutara el ya guardado\n") #& Pa diferenciar despues cuando andamos guardando o ejecutando la secuencia del Json
+	if desicion.lower() == "y":
+		grabarJson = True
+	else:
+		grabarJson = False
+
+
+	initialTime = time.time()
+	tiempoPrevio = 0.0
+	if grabarJson:
+		with mouse.Listener(on_click=mouseClick) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
+			mouseListener.join()
+			keyListener.join()
+		
+
+		keyboard.on_press(eventoTeclado)
+		keyboard.wait("esc")
+
+	else:
+		dicc = readJson("secuence")	#& Tambien imprime el json leido, de momento almenos
+		callEventos(dicc)
+	"""
+
+
+def grabar():
+	global eventosDict
+	eventosDict.clear()
+	global initialTime	#& Para cambiar directamente los valores de las variables globales (Si no solo seria dentro de esta funcion)
+	global tiempoPrevio
+	global grabarJson
+	global mListener, kListener
+	# global window
 
 	# window.showMinimized()
 
 	initialTime = time.time()
 	tiempoPrevio = 0.0
 
+	mListener = pynput.mouse.Listener(on_click=mouseClick, on_move=mouseMove, on_scroll=mouseScroll)
+	kListener = pynputKey.Listener(on_press=keyPress, on_release=keyRelease)
+	print("Pulsa \"escape\" para terminar la grabacion (Aun No graba Teclas, no lo eh combinado - Jaiber)")
+	mListener.start()
+	kListener.start()
+
+	"""
 	with mouse.Listener(on_click=mouseClick, on_move=mouseMove, on_scroll=mouseScroll) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
 			global mListener, kListener
 			mListener = mouseListener	#& Asignarlos a las variables globales
@@ -281,18 +301,20 @@ def grabar():
 			print("Pulsa \"escape\" para terminar la grabacion (Aun No graba Teclas, no lo eh combinado - Jaiber)")
 			mListener.join()
 			kListener.join()
+	"""
 
 
-def ejecutar():
-	diccionarioJson: dict = readJson("secuencia")
+def ejecutar(name: str = "testSecuencia"):
+	diccionarioJson: dict = readJson(name)
 	callEventos(diccionarioJson)
 
 
 class Pantalla(QDialog):
-
+	end_grabar = pyqtSignal()	#& Signal para que cuando el hilo de grabar se detenga, se llame a generar los bloques
 	def __init__(self):
 		super(Pantalla, self).__init__()
 		uic.loadUi("interfaz.ui", self)
+		self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint | QtCore.Qt.WindowType.WindowMaximizeButtonHint) #& Minimizar/Maximizar
 		self.setWindowTitle("mas nunca en mi vida usare python")
 		self.frames = []
 		self.botonGrabar: QToolButton = self.GRABAR
@@ -371,7 +393,6 @@ class Pantalla(QDialog):
 			grabar()
 		else:
 			ejecutar()
-		self.IniciarBloques()
 
 	def IniciarBloques(self):
 		secuenciasUsuario: list[str] = getJsons()
@@ -394,12 +415,18 @@ class Pantalla(QDialog):
 		color: white;
 	}
 """)
-			self.layoutIzquierda.addWidget(self.botonSecuencia)
+			self.layoutIzquierda.addWidget(self.botonSecuencia)	#! QObject::setParent: Cannot set parent, new parent is in a different thread
 			self.botonSecuencia.setFixedSize(QSize(220,60))
 			self.botonSecuencia.setProperty("direccionDeLaSecuencia",f"secuencia{index}.json")
 			self.botonSecuencia.setText(value)
 			self.botonSecuencia.clicked.connect(self.manejar_click)
 
+	def keyPressEvent(self, event: QtGui.QKeyEvent):
+		if event.key() == QtCore.Qt.Key.Key_Escape: #& Escape Key code in PyQt6
+			print("Esc Pressed in Qt")
+			event.ignore()
+		else:
+			event.accept()
 
 if __name__ == "__main__": #&name es una variable de python , contiene el nombre del script
 							#& osea aqui preguntamos , si este script es el modulo principal

@@ -98,7 +98,7 @@ def readJson(name: str):
 	"""
 	# TODO: Quizas como los Json solo seran de usuario, hacer que se lean solo de esa caprta ya en vez de la ruta del proyecto
 	dicc: dict
-	with open(f"./{name}.json", "r") as fileIn:
+	with open(f"./secuenciasUsuario/{name}.json", "r") as fileIn:
 		dicc = json.load(fileIn)
 
 	# print(dicc, "\n")
@@ -114,6 +114,4 @@ def getJsons(path: str = "./secuenciasUsuario") -> list[str]:
 	listaJsonNames: list[str] = [j for j in listaFiles if j.endswith(".json")]
 	listaJsonNames = sorted(listaJsonNames, key=str.lower)
 	listaJsonNames = sorted(listaJsonNames, key=sortNumberNames)
-	print(listaJsonNames)
 	return listaJsonNames
-

@@ -1,26 +1,61 @@
 [
   {
     "name": "mouseMove",
-    "timeSince": 0.691395,
-    "x": 111,
-    "y": 563
+    "timeSince": 0.61066,
+    "x": 206,
+    "y": 601
+  },
+  {
+    "name": "mouseDown",
+    "timeSince": 0.061505,
+    "button": "left"
   },
   {
     "name": "click_left",
-    "timeSince": 0.224187,
-    "x": 111,
-    "y": 563
+    "timeSince": 0.073961,
+    "x": 206,
+    "y": 602
   },
   {
     "name": "mouseMove",
-    "timeSince": 0.640405,
-    "x": 688,
-    "y": 577
+    "timeSince": 0.464533,
+    "x": 185,
+    "y": 390
   },
   {
     "name": "click_left",
-    "timeSince": 0.300812,
-    "x": 688,
-    "y": 577
+    "timeSince": 0.192397,
+    "x": 185,
+    "y": 390
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 1.127829,
+    "x": 517,
+    "y": 393
+  },
+  {
+    "name": "click_left",
+    "timeSince": 0.156432,
+    "x": 517,
+    "y": 393
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 0.555297,
+    "x": 300,
+    "y": 384
+  },
+  {
+    "name": "click_left",
+    "timeSince": 0.132616,
+    "x": 300,
+    "y": 384
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 1.33186,
+    "x": 552,
+    "y": 597
   }
 ]
