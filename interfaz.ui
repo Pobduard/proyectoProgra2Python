@@ -190,9 +190,9 @@ QToolButton{
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>480</y>
+      <y>420</y>
       <width>521</width>
-      <height>41</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -211,9 +211,9 @@ QToolButton{
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>141</width>
+       <x>20</x>
+       <y>20</y>
+       <width>161</width>
        <height>16</height>
       </rect>
      </property>
@@ -223,15 +223,15 @@ QToolButton{
 }</string>
      </property>
      <property name="text">
-      <string>Nombre del bloque: </string>
+      <string>Nombre del nuevo bloque: </string>
      </property>
     </widget>
     <widget class="QToolButton" name="INICIAR">
      <property name="geometry">
       <rect>
-       <x>400</x>
-       <y>0</y>
-       <width>110</width>
+       <x>460</x>
+       <y>30</y>
+       <width>51</width>
        <height>41</height>
       </rect>
      </property>
@@ -255,9 +255,9 @@ QToolButton:hover {
     <widget class="QLineEdit" name="lineEdit">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>10</y>
-       <width>231</width>
+       <x>30</x>
+       <y>40</y>
+       <width>141</width>
        <height>22</height>
       </rect>
      </property>
@@ -267,6 +267,87 @@ QToolButton:hover {
 }</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>10</y>
+       <width>261</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	  color: #fff;
+}</string>
+     </property>
+     <property name="text">
+      <string>Repetir cada</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_2">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>30</y>
+       <width>141</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit{
+	border-radius:10px
+}</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_2">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>60</y>
+       <width>54</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:#fff</string>
+     </property>
+     <property name="text">
+      <string>Horas</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_3">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>60</y>
+       <width>89</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:#fff</string>
+     </property>
+     <property name="text">
+      <string>Minutos</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>60</y>
+       <width>175</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:#fff</string>
+     </property>
+     <property name="text">
+      <string>Segundos</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="frame_5">
     <property name="geometry">
@@ -274,7 +355,7 @@ QToolButton:hover {
       <x>10</x>
       <y>60</y>
       <width>521</width>
-      <height>411</height>
+      <height>351</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -303,7 +384,7 @@ QToolButton:hover {
           <x>0</x>
           <y>0</y>
           <width>503</width>
-          <height>393</height>
+          <height>333</height>
          </rect>
         </property>
         <widget class="QWidget" name="widgetDelScrollArea" native="true">

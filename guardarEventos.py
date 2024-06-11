@@ -9,6 +9,9 @@ from PyQt6.QtWidgets import QKeySequenceEdit
 from PyQt6 import QtCore, QtGui
 from PyQt6.QtCore import QSize, pyqtSignal
 from datetime import datetime
+from PyQt6.QtGui import QIntValidator
+import threading
+
 
 eventosDict: list[dict] = []
 keysList: list[str] = []
@@ -21,6 +24,7 @@ mouseIsMoving: bool = False
 mouseIsDown: bool = False
 keyIsPressed: bool = False
 NombreNuevaSecuencia : str 
+TiempoDeRepeticion = 0
 
 """ 
 def eventoTeclado(tecla):
@@ -324,6 +328,20 @@ class Pantalla(QDialog):
 		self.botonEjecutar: QToolButton = self.EJECUTAR
 		self.botonIniciar: QToolButton = self.INICIAR 
 		self.labelApartado: QLabel = self.TextoDelApartado
+		self.TiempoIngresado = self.lineEdit_2
+
+		intValidator = QIntValidator()
+		self.TiempoIngresado.setValidator(intValidator)
+
+
+		self.radioButtonSegundos = self.radioButton
+		self.radioButtonHora = self.radioButton_2
+		self.radioButtonMinutos = self.radioButton_3
+
+		self.radioButtonSegundos.toggled.connect(self.establecerTiempoDeRepeticion)
+		self.radioButtonHora.toggled.connect(self.establecerTiempoDeRepeticion)
+		self.radioButtonMinutos.toggled.connect(self.establecerTiempoDeRepeticion)
+
 		
 
 		#apartado de la derecha 
@@ -371,8 +389,25 @@ class Pantalla(QDialog):
 		self.botonIniciar.setText("Ejecutar >")
 		print("Preparado para Ejecutar Json ...")
 
+
+
+	def establecerTiempoDeRepeticion(self, checked):
+		global TiempoDeRepeticion
+		if checked:
+			if self.sender() is self.radioButtonSegundos:
+				TiempoDeRepeticion = int(self.TiempoIngresado.text())
+            	# Realizar acciones para la opción 1
+			elif self.sender() is self.radioButtonHora :
+				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 3600
+                # Realizar acciones para la opción 2
+			elif self.sender() is self.radioButtonMinutos:
+				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 60
+                # Realizar acciones para la opción 2
+
+
 	def AgregarNuevoBloque(self):
 		global grabarJson, NombreNuevaSecuencia
+
 		self.IngresoDeNombre:QLineEdit = self.lineEdit
 		NombreNuevaSecuencia = self.IngresoDeNombre.text() ###########################luego reviso esto para cambiarlo
 		self.NombreNuevoBloque = self.IngresoDeNombre.text()
@@ -442,6 +477,15 @@ class Pantalla(QDialog):
 
 			
 			
+	def ejecucion(self):
+		global TiempoDeRepeticion
+		if(self.layoutDerecha.count() != 0):
+			for i in range(self.layoutDerecha.count()):
+				print(f"ejecutando la Secuencia {self.layoutDerecha.itemAt(i).widget().text()}")
+				ejecutar(self.layoutDerecha.itemAt(i).widget().text())
+		
+		threading.Timer(TiempoDeRepeticion, self.ejecucion).start()
+
 
 
 	def BotonIniciar(self):
@@ -450,10 +494,7 @@ class Pantalla(QDialog):
 			self.AgregarNuevoBloque()
 			grabar()
 		else:
-			if(self.layoutDerecha.count() != 0):
-				for i in range(self.layoutDerecha.count()):
-					print(f"ejecutando la Secuencia {self.layoutDerecha.itemAt(i).widget().text()}")
-					ejecutar(self.layoutDerecha.itemAt(i).widget().text())
+			self.ejecucion()
 			
 			
 
