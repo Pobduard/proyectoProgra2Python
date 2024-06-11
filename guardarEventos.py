@@ -20,6 +20,7 @@ grabarJson: bool = False
 mouseIsMoving: bool = False
 mouseIsDown: bool = False
 keyIsPressed: bool = False
+NombreNuevaSecuencia : str 
 
 """ 
 def eventoTeclado(tecla):
@@ -222,12 +223,12 @@ def keyPress(key: pynputKey.Key):
 
 def keyRelease(key: pynputKey.Key):
 	if key == pynputKey.Key.esc:
-		global mListener, kListener, window, grabarJson
+		global mListener, kListener, window, grabarJson, NombreNuevaSecuencia
 		mListener.stop()	#& MouseListener Detenido
 		kListener.stop()	#& KeyListener Detenido
 		mListener = None
 		kListener = None
-		writeJson("testSecuencia", lista=eventosDict, indentacion=2)	#& Modificar Json
+		writeJson(NombreNuevaSecuencia, lista=eventosDict, indentacion=2)	#& Modificar Json
 		print("Nuevo Json Guardado")
 		grabarJson = False
 		window.end_grabar.emit()
@@ -275,6 +276,7 @@ def main():
 
 
 def grabar():
+	
 	global eventosDict
 	eventosDict.clear()
 	global initialTime	#& Para cambiar directamente los valores de las variables globales (Si no solo seria dentro de esta funcion)
@@ -370,8 +372,9 @@ class Pantalla(QDialog):
 		print("Preparado para Ejecutar Json ...")
 
 	def AgregarNuevoBloque(self):
-		global grabarJson
+		global grabarJson, NombreNuevaSecuencia
 		self.IngresoDeNombre:QLineEdit = self.lineEdit
+		NombreNuevaSecuencia = self.IngresoDeNombre.text() ###########################luego reviso esto para cambiarlo
 		self.NombreNuevoBloque = self.IngresoDeNombre.text()
 		self.nuevoBoton = QToolButton()
 		self.nuevoBoton.setStyleSheet("""
@@ -397,7 +400,6 @@ class Pantalla(QDialog):
 			self.NombreNuevoBloque = str(datetime.now())	
 
 		self.nuevoBoton.setText(self.NombreNuevoBloque)
-		self.nuevoBoton.setProperty("direccionDeLaSecuencia", f"{self.NombreNuevoBloque}.json")	
 		self.layoutIzquierda.addWidget(self.nuevoBoton)
 		self.nuevoBoton.clicked.connect(self.manejar_click)
 		self.IngresoDeNombre.clear()
@@ -430,12 +432,9 @@ class Pantalla(QDialog):
 		
 
 		if(grabarJson == False):
-			self.nuevoBoton.setProperty("direccionDeLaSecuencia",boton.property("direccionDeLaSecuencia"))
 			self.nuevoBoton.setText(boton.text())
 			self.layoutDerecha.addWidget(self.nuevoBoton)
-			direccion = boton.property("direccionDeLaSecuencia")
-			print(f"Botón presionado: {direccion}")
-			print(f"Botón presionado: {self.nuevoBoton.property("direccionDeLaSecuencia")}")
+			print(f"Botón presionado: {self.nuevoBoton.text()}")
 			self.botonSecuencia.clicked.connect(self.manejar_click)
 
 
@@ -449,10 +448,12 @@ class Pantalla(QDialog):
 		global grabarJson
 		if(grabarJson):
 			self.AgregarNuevoBloque()
-			#grabar()
+			grabar()
 		else:
 			if(self.layoutDerecha.count() != 0):
-				ejecutar()
+				for i in range(self.layoutDerecha.count()):
+					print(f"ejecutando la Secuencia {self.layoutDerecha.itemAt(i).widget().text()}")
+					ejecutar(self.layoutDerecha.itemAt(i).widget().text())
 			
 			
 
@@ -479,8 +480,7 @@ class Pantalla(QDialog):
 """)
 			self.layoutIzquierda.addWidget(self.botonSecuencia)	#! QObject::setParent: Cannot set parent, new parent is in a different thread
 			self.botonSecuencia.setFixedSize(QSize(220,60))
-			self.botonSecuencia.setProperty("direccionDeLaSecuencia",f"secuencia{index}.json")
-			self.botonSecuencia.setText(value)
+			self.botonSecuencia.setText(value.replace(".json",""))
 			self.botonSecuencia.clicked.connect(self.manejar_click)
 
 	def keyPressEvent(self, event: QtGui.QKeyEvent):
