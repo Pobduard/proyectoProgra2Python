@@ -413,11 +413,11 @@ class Pantalla(QDialog):
 			if self.sender() is self.radioButtonSegundos:
 				TiempoDeRepeticion = int(self.TiempoIngresado.text())
 				# Realizar acciones para la opción 1
-			elif self.sender() is self.radioButtonHora :
-				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 3600
-				# Realizar acciones para la opción 2
 			elif self.sender() is self.radioButtonMinutos:
 				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 60
+				# Realizar acciones para la opción 2
+			elif self.sender() is self.radioButtonHora :
+				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 3600
 				# Realizar acciones para la opción 2
 
 
@@ -498,9 +498,8 @@ class Pantalla(QDialog):
 				print(f"ejecutando la Secuencia {self.layoutDerecha.itemAt(i).widget().text()}")
 				ejecutar(self.layoutDerecha.itemAt(i).widget().text())
 		
-		threading.Timer(TiempoDeRepeticion, self.ejecucion).start()
-
-
+		hiloRepeticiones = threading.Timer(TiempoDeRepeticion, self.ejecucion)
+		hiloRepeticiones.start()
 
 	def BotonIniciar(self):
 		global grabarJson
