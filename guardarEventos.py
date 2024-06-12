@@ -1,4 +1,4 @@
-import time, math
+import time
 from pynput import mouse, keyboard as pynputKey
 import keyboard
 from eventos import *
@@ -11,7 +11,6 @@ from PyQt6.QtCore import QSize, pyqtSignal
 from datetime import datetime
 from PyQt6.QtGui import QIntValidator
 import threading
-
 
 eventosDict: list[dict] = []
 keysList: list[str] = []
@@ -250,6 +249,7 @@ def keyRelease(key: pynputKey.Key):
 		print("Nuevo Json Guardado")
 		grabarJson = False
 		window.end_grabar.emit()
+		window.normalizarVentana.emit()
 		# window.showNormal()
 		# window.show()
 		# window.update()
@@ -303,7 +303,7 @@ def grabar():
 	global mListener, kListener
 	# global window
 
-	# window.showMinimized()
+	window.minimizarVentana.emit()
 
 	initialTime = time.time()
 	tiempoPrevio = 0.0
@@ -332,6 +332,8 @@ def ejecutar(name: str = "testSecuencia"):
 
 class Pantalla(QDialog):
 	end_grabar = pyqtSignal()	#& Signal para que cuando el hilo de grabar se detenga, se llame a generar los bloques
+	minimizarVentana = pyqtSignal()
+	normalizarVentana = pyqtSignal()
 	def __init__(self):
 		super(Pantalla, self).__init__()
 		uic.loadUi("interfaz.ui", self)
@@ -410,13 +412,13 @@ class Pantalla(QDialog):
 		if checked:
 			if self.sender() is self.radioButtonSegundos:
 				TiempoDeRepeticion = int(self.TiempoIngresado.text())
-            	# Realizar acciones para la opción 1
+				# Realizar acciones para la opción 1
 			elif self.sender() is self.radioButtonHora :
 				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 3600
-                # Realizar acciones para la opción 2
+				# Realizar acciones para la opción 2
 			elif self.sender() is self.radioButtonMinutos:
 				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 60
-                # Realizar acciones para la opción 2
+				# Realizar acciones para la opción 2
 
 
 	def AgregarNuevoBloque(self):
@@ -489,8 +491,6 @@ class Pantalla(QDialog):
 
 
 
-			
-			
 	def ejecucion(self):
 		global TiempoDeRepeticion
 		if(self.layoutDerecha.count() != 0):
@@ -509,8 +509,7 @@ class Pantalla(QDialog):
 			grabar()
 		else:
 			self.ejecucion()
-			
-			
+
 
 	def IniciarBloques(self):
 		secuenciasUsuario: list[str] = getJsons()
@@ -544,6 +543,14 @@ class Pantalla(QDialog):
 			event.ignore()
 		else:
 			event.accept()
+
+	def Minimizar(self):
+		print("minimizado")
+		self.showMinimized()
+
+	def Normalizar(self):
+		print("normalizado")
+		self.showNormal()
 
 if __name__ == "__main__": #&name es una variable de python , contiene el nombre del script
 							#& osea aqui preguntamos , si este script es el modulo principal
