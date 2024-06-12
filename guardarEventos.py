@@ -29,13 +29,22 @@ def eventoTeclado(tecla):
 		writeJson("secuencia", eventosDict, 2)
 """
 
-def getLastEvent() -> dict:
+def getLastEvent(x:int = -100, y:int = -100) -> dict:
 	global eventosDict
 	last: dict
 	try:
 		last = eventosDict[-1]	#& Obtener el ultimo evento, pa revisar si es un movimiento reemplazarlo (ir directo al lugar)
 	except (IndexError):
-		last = {}	#& Json Vacio
+		if(x != -100 and y != -100):
+			last = {
+				"name" : "mouseMove",
+				"timeSince" : 0,
+				"x" : x,
+				"y" : y
+			}
+			eventosDict.append(last)
+		else:
+			last = {}	#& Json Vacio
 	return last
 
 
@@ -130,6 +139,7 @@ def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 
 def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 	global eventosDict
+	getLastEvent(x, y)
 	diff : float = getEventTime()
 	event: dict
 	if pressed:	#& Decimos que es un hold
@@ -151,6 +161,9 @@ def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 
 
 def checkMouseClick(x:int, y:int, button: mouse.Button):
+	"""
+	Solo se llama una vez se solto el mouse, por lo tanto siempre deberia existir un evento antes de esto
+	"""
 	global eventosDict
 	mouseDownEvent: dict = eventosDict[-2]	#& Si los 2 ultimos, este es cuando se presiona
 	mouseUpEvent: dict = eventosDict[-1]	#& Si los 2 ultimos, este es cuando se libera
@@ -207,6 +220,7 @@ def mouseScroll(x: int, y:int, dx: int, dy: int):
 	"""
 	# print(f"x:{x} | y:{y} | dx:{dx} | dy{dy}")
 	global eventosDict
+	getLastEvent(x, y)
 	diff: float = getEventTime()
 	eventosDict.append({
 		"name" : "mouseScroll",
