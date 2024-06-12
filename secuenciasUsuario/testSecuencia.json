@@ -1,50 +1,48 @@
 [
   {
     "name": "mouseMove",
-    "timeSince": 0.538478,
-    "x": 162,
-    "y": 654
+    "timeSince": 1.43288,
+    "x": 824,
+    "y": 674
   },
   {
-    "name": "click_left",
-    "timeSince": 0.127373,
-    "x": 162,
-    "y": 654
+    "name": "mouseDown",
+    "timeSince": 0.578519,
+    "button": "left"
   },
   {
-    "name": "mouseMove",
-    "timeSince": 0.845938,
-    "x": 517,
-    "y": 380
-  },
-  {
-    "name": "click_left",
-    "timeSince": 0.11507,
-    "x": 517,
-    "y": 380
+    "name": "mouseUp",
+    "timeSince": 0.134125,
+    "button": "left"
   },
   {
     "name": "mouseMove",
-    "timeSince": 0.543521,
-    "x": 310,
-    "y": 373
+    "timeSince": 0.48686,
+    "x": 892,
+    "y": 372
   },
   {
     "name": "click_left",
-    "timeSince": 0.143958,
-    "x": 310,
-    "y": 373
+    "timeSince": 0.184074,
+    "x": 892,
+    "y": 372
   },
   {
     "name": "mouseMove",
-    "timeSince": 0.368115,
-    "x": 483,
-    "y": 575
+    "timeSince": 0.768741,
+    "x": 666,
+    "y": 592
   },
   {
     "name": "click_left",
-    "timeSince": 0.152982,
-    "x": 483,
-    "y": 575
+    "timeSince": 0.200052,
+    "x": 666,
+    "y": 592
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 0.795289,
+    "x": 785,
+    "y": 609
   }
 ]
