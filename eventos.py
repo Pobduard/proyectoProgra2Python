@@ -2,7 +2,7 @@
 Aqui se encuentran todos los eventos creados hasta el momento, y la funcion para llamarlos
 """
 
-import time, pyautogui, json, pynput, os, re
+import time, pyautogui, json, pynput, os, re, threading
 
 def callEventos(diccionario: list[dict]):
 	"""
@@ -12,6 +12,7 @@ def callEventos(diccionario: list[dict]):
 	"""
 	for index, evento in enumerate(diccionario):
 		print(f"\tSleep: {evento.get("timeSince")}")
+		# threading.Timer(evento.get("timeSince"), do_nothing)
 		time.sleep(evento.get("timeSince"))
 		eventName: str = evento.get("name")
 
@@ -27,6 +28,9 @@ def callEventos(diccionario: list[dict]):
 			case "mouseScroll":
 				mouseScroll(evento)
 		print(f"\t\t|Evento{index}|: evento: {evento}")
+
+def do_nothing():
+	pass
 
 def mouseMove(evento: dict):
 	""" Mueve el Mouse a la Coordenada Enviada """

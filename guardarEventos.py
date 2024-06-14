@@ -1,4 +1,4 @@
-import time, math
+import time
 from pynput import mouse, keyboard as pynputKey
 import keyboard
 from eventos import *
@@ -12,7 +12,6 @@ from datetime import datetime
 from PyQt6.QtGui import QIntValidator
 import threading
 
-
 eventosDict: list[dict] = []
 keysList: list[str] = []
 initialTime: float
@@ -24,7 +23,8 @@ mouseIsMoving: bool = False
 mouseIsDown: bool = False
 keyIsPressed: bool = False
 NombreNuevaSecuencia : str 
-TiempoDeRepeticion = 0
+TiempoDeRepeticion = 10
+secuenciasCargadas = False
 
 """ 
 def eventoTeclado(tecla):
@@ -34,13 +34,22 @@ def eventoTeclado(tecla):
 		writeJson("secuencia", eventosDict, 2)
 """
 
-def getLastEvent() -> dict:
+def getLastEvent(x:int = -100, y:int = -100) -> dict:
 	global eventosDict
 	last: dict
 	try:
 		last = eventosDict[-1]	#& Obtener el ultimo evento, pa revisar si es un movimiento reemplazarlo (ir directo al lugar)
 	except (IndexError):
-		last = {}	#& Json Vacio
+		if(x != -100 and y != -100):
+			last = {
+				"name" : "mouseMove",
+				"timeSince" : 0,
+				"x" : x,
+				"y" : y
+			}
+			eventosDict.append(last)
+		else:
+			last = {}	#& Json Vacio
 	return last
 
 
@@ -135,6 +144,7 @@ def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 
 def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 	global eventosDict
+	getLastEvent(x, y)
 	diff : float = getEventTime()
 	event: dict
 	if pressed:	#& Decimos que es un hold
@@ -156,6 +166,9 @@ def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 
 
 def checkMouseClick(x:int, y:int, button: mouse.Button):
+	"""
+	Solo se llama una vez se solto el mouse, por lo tanto siempre deberia existir un evento antes de esto
+	"""
 	global eventosDict
 	mouseDownEvent: dict = eventosDict[-2]	#& Si los 2 ultimos, este es cuando se presiona
 	mouseUpEvent: dict = eventosDict[-1]	#& Si los 2 ultimos, este es cuando se libera
@@ -212,6 +225,7 @@ def mouseScroll(x: int, y:int, dx: int, dy: int):
 	"""
 	# print(f"x:{x} | y:{y} | dx:{dx} | dy{dy}")
 	global eventosDict
+	getLastEvent(x, y)
 	diff: float = getEventTime()
 	eventosDict.append({
 		"name" : "mouseScroll",
@@ -236,6 +250,7 @@ def keyRelease(key: pynputKey.Key):
 		print("Nuevo Json Guardado")
 		grabarJson = False
 		window.end_grabar.emit()
+		window.normalizarVentana.emit()
 		# window.showNormal()
 		# window.show()
 		# window.update()
@@ -289,7 +304,7 @@ def grabar():
 	global mListener, kListener
 	# global window
 
-	# window.showMinimized()
+	window.minimizarVentana.emit()
 
 	initialTime = time.time()
 	tiempoPrevio = 0.0
@@ -318,6 +333,8 @@ def ejecutar(name: str = "testSecuencia"):
 
 class Pantalla(QDialog):
 	end_grabar = pyqtSignal()	#& Signal para que cuando el hilo de grabar se detenga, se llame a generar los bloques
+	minimizarVentana = pyqtSignal()
+	normalizarVentana = pyqtSignal()
 	def __init__(self):
 		super(Pantalla, self).__init__()
 		uic.loadUi("interfaz.ui", self)
@@ -329,6 +346,21 @@ class Pantalla(QDialog):
 		self.botonIniciar: QToolButton = self.INICIAR 
 		self.labelApartado: QLabel = self.TextoDelApartado
 		self.TiempoIngresado = self.lineEdit_2
+		self.ApartadoIngresarNombre = self.NombreDelBloque
+		self.ApartadoIngresarTiempoDeRepeticion = self.NombreDelBloque_2
+		self.ApartadoTextpGrabar = self.FrameDelApartadoGrabar
+		self.ApartadoTextpEjecutar = self.FrameDelApartadoEjecutar
+		self.ApartadoTextElegirModo = self.FrameDelApartadoElegirModo
+
+		self.ApartadoTextpEjecutar.setVisible(False)
+		self.ApartadoTextpGrabar.setVisible(False)
+		
+
+
+
+		self.botonIniciar.setVisible(False)
+		self.ApartadoIngresarNombre.setVisible(False)
+		self.ApartadoIngresarTiempoDeRepeticion.setVisible(False)
 
 		intValidator = QIntValidator()
 		self.TiempoIngresado.setValidator(intValidator)
@@ -363,7 +395,7 @@ class Pantalla(QDialog):
 		self.AreaDeBloques.setWidget(self.widgetIzquierda)
 
 		self.show()
-		self.IniciarBloques()
+		
 
 		self.botonGrabar.clicked.connect(self.TextoGrabar)
 		self.botonEjecutar.clicked.connect(self.TextoEjecutar)
@@ -374,35 +406,55 @@ class Pantalla(QDialog):
 			bloque = self.layoutDerecha.itemAt(i).widget()
 			bloque.deleteLater()
 
+
 	def TextoGrabar(self) :
-		self.labelApartado.setText("Grabe o seleccione una secuencia para ser mostrada.")
+		self.eliminarBloquesDerecha()
+		self.botonIniciar.setVisible(True)
+		self.ApartadoTextpEjecutar.setVisible(False)
+		self.ApartadoTextElegirModo.setVisible(False)
+		self.ApartadoTextpGrabar.setVisible(True)
 		global grabarJson
 		grabarJson = True	#& Se grabara el Json cuando se pulde el boton de iniciar
 		self.botonIniciar.setText("Grabar >")
 		self.eliminarBloquesDerecha()
 		print("Preparado para Grabar Json ...")
+		self.ApartadoIngresarNombre.setVisible(True)
+		self.ApartadoIngresarTiempoDeRepeticion.setVisible(False)
 
 	def TextoEjecutar(self) :
-		self.labelApartado.setText("Secuencia:")    
+		self.botonIniciar.setVisible(True)
+		self.ApartadoTextpEjecutar.setVisible(True)
+		self.ApartadoTextElegirModo.setVisible(False)
+		self.ApartadoTextpGrabar.setVisible(False)
+		self.estilizarScrollArea()
+
+		global secuenciasCargadas
+		
+		if(secuenciasCargadas == False):
+			self.IniciarBloques()
+			
+		secuenciasCargadas = True
 		global grabarJson
 		grabarJson = False	#& Se ejecutara/Creara (idk) cuando se pulse el boton de iniciar
 		self.botonIniciar.setText("Ejecutar >")
 		print("Preparado para Ejecutar Json ...")
+		self.ApartadoIngresarNombre.setVisible(False)
+		self.ApartadoIngresarTiempoDeRepeticion.setVisible(True)
 
 
 
 	def establecerTiempoDeRepeticion(self, checked):
 		global TiempoDeRepeticion
-		if checked:
+		if (checked):
 			if self.sender() is self.radioButtonSegundos:
 				TiempoDeRepeticion = int(self.TiempoIngresado.text())
-            	# Realizar acciones para la opción 1
+				# Realizar acciones para la opción 1
 			elif self.sender() is self.radioButtonHora :
 				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 3600
-                # Realizar acciones para la opción 2
+				# Realizar acciones para la opción 2
 			elif self.sender() is self.radioButtonMinutos:
 				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 60
-                # Realizar acciones para la opción 2
+				# Realizar acciones para la opción 2
 
 
 	def AgregarNuevoBloque(self):
@@ -414,8 +466,9 @@ class Pantalla(QDialog):
 		self.nuevoBoton = QToolButton()
 		self.nuevoBoton.setStyleSheet("""
 	QToolButton {
-		background: #FF4A1C;
+		background: #00ABE4;
 		color: #fff;
+		font:bold;
 		padding: 10px 20px;
 		border: none;
 		border-radius: 3px;
@@ -449,8 +502,9 @@ class Pantalla(QDialog):
 		self.nuevoBoton = QToolButton()
 		self.nuevoBoton.setStyleSheet("""
 		QToolButton {
-		background: #F24236;
+		background: #00ABE4;
 		color: #fff;
+		font:bold;
 		padding: 10px 20px;
 		border: none;
 		border-radius: 5px;
@@ -475,16 +529,16 @@ class Pantalla(QDialog):
 
 
 
-			
-			
 	def ejecucion(self):
+
 		global TiempoDeRepeticion
-		if(self.layoutDerecha.count() != 0):
+		if self.layoutDerecha.count() != 0 and self.TiempoIngresado.text() != "":
+			self.showMinimized()
 			for i in range(self.layoutDerecha.count()):
 				print(f"ejecutando la Secuencia {self.layoutDerecha.itemAt(i).widget().text()}")
 				ejecutar(self.layoutDerecha.itemAt(i).widget().text())
 		
-		threading.Timer(TiempoDeRepeticion, self.ejecucion).start()
+			threading.Timer(TiempoDeRepeticion, self.ejecucion).start()
 
 
 
@@ -492,23 +546,65 @@ class Pantalla(QDialog):
 		global grabarJson
 		if(grabarJson):
 			self.AgregarNuevoBloque()
+			self.showMinimized()
 			grabar()
+			self.TextoEjecutar()
+
+
 		else:
+			
 			self.ejecucion()
 			
-			
+
+
+	def estilizarScrollArea(self):
+		self.scrollAreaIzquierda = self.scrollArea1
+		self.ScrollVertical = self.scrollAreaIzquierda.verticalScrollBar()
+		self.ScrollVertical.setStyleSheet("""
+	QScrollBar:vertical{
+		background:#C7C7C7;
+		border-radius: 3px;
+	}
+""")
+		self.ScrollHorizontal = self.scrollAreaIzquierda.horizontalScrollBar()
+		self.ScrollHorizontal.setStyleSheet("""
+	QScrollBar:horizontal{
+		background:#C7C7C7;
+		border-radius: 3px;
+	}
+""")
+
+		self.scrollAreaDerecha = self.scrollArea2
+		self.ScrollVerticalDerecha = self.scrollAreaDerecha.verticalScrollBar()
+		self.ScrollVerticalDerecha.setStyleSheet("""
+	QScrollBar:vertical{
+		background:#C7C7C7;
+		border-radius: 3px;
+	}
+""")
+		self.ScrollHorizontalDerecha = self.scrollAreaDerecha.horizontalScrollBar()
+		self.ScrollHorizontalDerecha.setStyleSheet("""
+	QScrollBar:horizontal{
+		background:#C7C7C7;
+		border-radius: 3px;
+	}
+""")
+
 
 	def IniciarBloques(self):
+		
 		secuenciasUsuario: list[str] = getJsons()
 		for index, value in enumerate(secuenciasUsuario):
 			self.botonSecuencia = QToolButton()
 			self.botonSecuencia.setStyleSheet("""
 	QToolButton {
-		background: #FF4A1C;
-		color: #fff;
+		background: #00ABE4;
+		  color: #fff;
+    	font-weight: bold;
 		padding: 10px 20px;
 		border: none;
 		border-radius: 3px;
+									 
 		min-width: 148px;
 		min-height: 10px;
 		max-width: 148px;
@@ -531,7 +627,15 @@ class Pantalla(QDialog):
 		else:
 			event.accept()
 
-if __name__ == "__main__": #&name es una variable de python , contiene el nombre del script
+	def Minimizar(self):
+		print("minimizado")
+		self.showMinimized()
+
+	def Normalizar(self):
+		print("normalizado")
+		self.showNormal()
+
+if __name__ == "__main__": #&name es una variable de python , contiene el nombre del scriptself.
 							#& osea aqui preguntamos , si este script es el modulo principal
 							#+ Asi es, y por eso metere la funcion "main" aqui
 	main()
