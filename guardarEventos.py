@@ -25,13 +25,6 @@ keyIsPressed: bool = False
 NombreNuevaSecuencia : str 
 TiempoDeRepeticion = 0
 
-""" 
-def eventoTeclado(tecla):
-	if keyboard.is_pressed("alt") and keyboard.is_pressed("ctrl") and tecla.name == "k":
-
-		callEventos(eventosDict)
-		writeJson("secuencia", eventosDict, 2)
-"""
 
 def getLastEvent(x:int = -100, y:int = -100) -> dict:
 	global eventosDict
@@ -68,78 +61,6 @@ def getEventTime(isEvent: bool = True) -> float:
 
 	return float(format(diff, ".6f"))
 
-""" 
-def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
-	last = getLastEvent()
-	mousePressTime: float = 0.0
-	mouseReleaseTime: float = 0.0
-	if pressed:
-		mousePressTime = getEventTime(False)
-	if not pressed:
-		mouseReleaseTime = getEventTime(False)
-	diff : float = getEventTime()
-
-	mouseDownDuration: float = diff - (mouseReleaseTime + mousePressTime)
-	print(f"DownDuration:{mouseDownDuration} = Release:{mouseReleaseTime} + Press:{mousePressTime} - diff:{diff}")	
-	if(mouseDownDuration <= 0.15):	#& Decimos que se hizo un click y no un hold
-		lastTime: float
-		if last == {}:
-			eventosDict.append({
-				"name" : "startPos",
-				"timeSince" : diff,
-				"x" : x,
-				"y" : y,
-			})
-			lastTime = 0
-		else:
-			lastTime = last.get("timeSince")
-
-		
-		resta: float = float(format(diff - lastTime, ".6f"))	#& Resta en Segundos, segun windows el tiempo mayor pa un doble click son 500ms
-		if(last.get("name") == "click_left" and button == mouse.Button.left and resta <= 0.5):
-			if(last.get("x") == x and last.get("y") == y):	#& Si es un click en la misma posocion en menos de medio segundo
-				last["timeSince"] = float(format((diff + lastTime), ".6f"))
-				last["times"] = last["times"] + 1
-				print(f"PastLeftClick times:{last["times"]} | Diff:{diff:.6f} - LastTime:{lastTime:.6f} = Resta:{resta:.6f}")
-				return
-
-		elif button == mouse.Button.left:
-			print("LeftClick")
-			eventosDict.append({
-				"name" : f"click_{button.name}",
-				"timeSince" : diff,
-				"times" : 1,	#& times es solo necesario y posible en el click izquierdo
-				"x" : x,
-				"y" : y
-			})
-		else:
-			# print("SomeClick")
-			eventosDict.append({
-				"name" : f"click_{button.name}",
-				"timeSince" : diff,
-				"x" : x,
-				"y" : y
-			})
-
-	else:	#& Decimos que es un hold
-		diff : float = getEventTime()
-		hold = {
-			"name" : "mouseDown",
-			"timeSince" : diff,
-			"button" : f"{button.name}"
-		}
-		release = {
-			"name" : "mouseUp",
-			"timeSince" : mouseDownDuration,
-			"button" : f"{button.name}"
-		}
-		if(last.get("name") == "mouseMove"):	#& Si se hizo un movimiento antes del hold, o mejor dicho, probablemente durante
-			eventosDict.insert(-1, hold)	#& inserto el Hold antes del movimiento
-			eventosDict.append(release)		#& Añado el Release despues del movimiento
-		else:
-			eventosDict.append(hold)
-			eventosDict.append(release)
-"""
 
 def mouseClick(x: int, y: int, button: mouse.Button, pressed: bool):
 	global eventosDict
@@ -234,11 +155,11 @@ def mouseScroll(x: int, y:int, dx: int, dy: int):
 	})
 
 
-def keyPress(key: pynputKey.Key):
+def keyPressGrabar(key: pynputKey.Key):
 	print(key.name)
 
 
-def keyRelease(key: pynputKey.Key):
+def keyReleaseGrabar(key: pynputKey.Key):
 	if key == pynputKey.Key.esc:
 		global mListener, kListener, window, grabarJson, NombreNuevaSecuencia
 		mListener.stop()	#& MouseListener Detenido
@@ -257,40 +178,23 @@ def keyRelease(key: pynputKey.Key):
 		# callEventos(eventosDict)	#& TODO: Se tiene que eliminar de aqui despues al tener el boton pa ejecutar
 		# print("End")
 
+def keyPressEjecutar(key: pynputKey.Key):
+	print(key.name)
+	if key == pynputKey.Key.esc:
+		global kListener, window
+		window.stopKeyListenerSignal.emit()
+
+def keyReleaseEjecutar(key: pynputKey.Key):
+	if key == pynputKey.Key.esc:
+		global kListener, window
+		window.stopKeyListenerSignal.emit()
+
 
 def main():
 	global window
 	app = QApplication(sys.argv)
 	window = Pantalla()
 	sys.exit(app.exec())
-	""" 
-	#& Todo ese codigo anterior en comentarios pa evitar eliminar cosas utiles, de momento
-	global initialTime	#& Para cambiar directamente los valores de las variables globales (Si no solo seria dentro de esta funcion)
-	global tiempoPrevio
-	global grabarJson
-
-	desicion = input("Desea Grabar el Json? (y/n) : si no lo graba se ejecutara el ya guardado\n") #& Pa diferenciar despues cuando andamos guardando o ejecutando la secuencia del Json
-	if desicion.lower() == "y":
-		grabarJson = True
-	else:
-		grabarJson = False
-
-
-	initialTime = time.time()
-	tiempoPrevio = 0.0
-	if grabarJson:
-		with mouse.Listener(on_click=mouseClick) as mouseListener, pynputKey.Listener(on_press=keyPress, on_release=keyRelease) as keyListener:
-			mouseListener.join()
-			keyListener.join()
-		
-
-		keyboard.on_press(eventoTeclado)
-		keyboard.wait("esc")
-
-	else:
-		dicc = readJson("secuence")	#& Tambien imprime el json leido, de momento almenos
-		callEventos(dicc)
-	"""
 
 
 def grabar():
@@ -301,7 +205,7 @@ def grabar():
 	global tiempoPrevio
 	global grabarJson
 	global mListener, kListener
-	# global window
+	global window
 
 	window.minimizarVentana.emit()
 
@@ -309,7 +213,7 @@ def grabar():
 	tiempoPrevio = 0.0
 
 	mListener = pynput.mouse.Listener(on_click=mouseClick, on_move=mouseMove, on_scroll=mouseScroll)
-	kListener = pynputKey.Listener(on_press=keyPress, on_release=keyRelease)
+	kListener = pynputKey.Listener(on_press=keyPressGrabar, on_release=keyReleaseGrabar)
 	print("Pulsa \"escape\" para terminar la grabacion (Aun No graba Teclas, no lo eh combinado - Jaiber)")
 	mListener.start()
 	kListener.start()
@@ -334,6 +238,10 @@ class Pantalla(QDialog):
 	end_grabar = pyqtSignal()	#& Signal para que cuando el hilo de grabar se detenga, se llame a generar los bloques
 	minimizarVentana = pyqtSignal()
 	normalizarVentana = pyqtSignal()
+	stopKeyListenerSignal = pyqtSignal()
+	hiloRepeticiones: threading.Timer
+
+
 	def __init__(self):
 		super(Pantalla, self).__init__()
 		uic.loadUi("interfaz.ui", self)
@@ -384,6 +292,9 @@ class Pantalla(QDialog):
 		self.botonGrabar.clicked.connect(self.TextoGrabar)
 		self.botonEjecutar.clicked.connect(self.TextoEjecutar)
 		self.botonIniciar.clicked.connect(self.BotonIniciar)
+		self.minimizarVentana.connect(self.Minimizar)
+		self.normalizarVentana.connect(self.Normalizar)
+		self.stopKeyListenerSignal.connect(self.stopKeyListener)
 
 	def eliminarBloquesDerecha(self):
 		for i in range (self.layoutDerecha.count()):
@@ -394,15 +305,15 @@ class Pantalla(QDialog):
 		self.labelApartado.setText("Grabe o seleccione una secuencia para ser mostrada.")
 		global grabarJson
 		grabarJson = True	#& Se grabara el Json cuando se pulde el boton de iniciar
-		self.botonIniciar.setText("Grabar >")
+		self.botonIniciar.setText("Grabar")
 		self.eliminarBloquesDerecha()
 		print("Preparado para Grabar Json ...")
 
 	def TextoEjecutar(self) :
-		self.labelApartado.setText("Secuencia:")    
+		self.labelApartado.setText("Secuencia:")
 		global grabarJson
 		grabarJson = False	#& Se ejecutara/Creara (idk) cuando se pulse el boton de iniciar
-		self.botonIniciar.setText("Ejecutar >")
+		self.botonIniciar.setText("Ejecutar")
 		print("Preparado para Ejecutar Json ...")
 
 
@@ -493,13 +404,33 @@ class Pantalla(QDialog):
 
 	def ejecucion(self):
 		global TiempoDeRepeticion
+		self.startKeyListener()
 		if(self.layoutDerecha.count() != 0):
 			for i in range(self.layoutDerecha.count()):
 				print(f"ejecutando la Secuencia {self.layoutDerecha.itemAt(i).widget().text()}")
 				ejecutar(self.layoutDerecha.itemAt(i).widget().text())
 		
-		hiloRepeticiones = threading.Timer(TiempoDeRepeticion, self.ejecucion)
-		hiloRepeticiones.start()
+
+		# self.hiloRepeticiones = threading.Timer(TiempoDeRepeticion, self.ejecucion)
+		# self.hiloRepeticiones.start()
+
+
+	def startKeyListener(self):
+		print("Llamado StartKeyListener")
+		global kListener, keyPressEjecutar, keyReleaseEjecutar
+		kListener = pynputKey.Listener(on_press=keyPressEjecutar, on_release=keyReleaseEjecutar)
+		kListener.start()
+
+	def stopKeyListener(self):
+		print("Llamado StopKeyListener")
+		global kListener
+		self.hiloRepeticiones.finished.clear()
+		self.hiloRepeticiones.finished.wait()
+		if kListener is not None:	#& Asegurarse que no sea nulo, pa evitar peos
+			print("KeyDetenido")
+			kListener.stop()	
+		print(f"Ejecucion Detenida, HiloAlive?: {self.hiloRepeticiones.is_alive()} | ListenerAlive?: {kListener.is_alive()}")
+		kListener = None
 
 	def BotonIniciar(self):
 		global grabarJson
@@ -531,7 +462,7 @@ class Pantalla(QDialog):
 		color: white;
 	}
 """)
-			self.layoutIzquierda.addWidget(self.botonSecuencia)	#! QObject::setParent: Cannot set parent, new parent is in a different thread
+			self.layoutIzquierda.addWidget(self.botonSecuencia)
 			self.botonSecuencia.setFixedSize(QSize(220,60))
 			self.botonSecuencia.setText(value.replace(".json",""))
 			self.botonSecuencia.clicked.connect(self.manejar_click)
