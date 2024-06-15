@@ -339,7 +339,7 @@ class Pantalla(QDialog):
 		super(Pantalla, self).__init__()
 		uic.loadUi("interfaz.ui", self)
 		self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint | QtCore.Qt.WindowType.WindowMaximizeButtonHint) #& Minimizar/Maximizar
-		self.setWindowTitle("mas nunca en mi vida usare python")
+		self.setWindowTitle("PyDesk")
 		self.frames = []
 		self.botonGrabar: QToolButton = self.GRABAR
 		self.botonEjecutar: QToolButton = self.EJECUTAR
@@ -370,6 +370,7 @@ class Pantalla(QDialog):
 		self.radioButtonHora = self.radioButton_2
 		self.radioButtonMinutos = self.radioButton_3
 
+		self.radioButtonSegundos.setChecked(True)
 		self.radioButtonSegundos.toggled.connect(self.establecerTiempoDeRepeticion)
 		self.radioButtonHora.toggled.connect(self.establecerTiempoDeRepeticion)
 		self.radioButtonMinutos.toggled.connect(self.establecerTiempoDeRepeticion)
