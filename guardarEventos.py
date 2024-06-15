@@ -529,12 +529,11 @@ class Pantalla(QDialog):
 			self.botonSecuencia.setStyleSheet("""
 	QToolButton {
 		background: #00ABE4;
-		  color: #fff;
-    	font-weight: bold;
+		color: #fff;
+		font-weight: bold;
 		padding: 10px 20px;
 		border: none;
 		border-radius: 3px;
-									 
 		min-width: 148px;
 		min-height: 10px;
 		max-width: 148px;
