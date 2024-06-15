@@ -12,8 +12,8 @@ def callEventos(diccionario: list[dict]):
 	"""
 	timer: threading.Timer = None
 	for index, evento in enumerate(diccionario):
-		print(f"\tSleep: {evento.get("timeSince")} | {type(evento.get("timeSince"))}")
-		# timer = threading.Timer(float(evento.get("timeSince")), do_nothing)
+		print(f"\tSleep: {evento.get("timeSince")}")
+		# threading.Timer(evento.get("timeSince"), do_nothing)
 		time.sleep(evento.get("timeSince"))
 		eventName: str = evento.get("name")
 
@@ -33,6 +33,9 @@ def callEventos(diccionario: list[dict]):
 
 def do_nothing():
 	print("\t\t\t\t\t|did nothing")
+
+def do_nothing():
+	pass
 
 def mouseMove(evento: dict):
 	""" Mueve el Mouse a la Coordenada Enviada """
