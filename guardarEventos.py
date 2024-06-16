@@ -532,7 +532,7 @@ class Pantalla(QDialog):
 		max-height: 10px;
 	}
 	QToolButton:hover {
-		background-color: blue;
+		background-color: #1280a4;
 		color: white;
 	}
 """)
@@ -568,7 +568,7 @@ class Pantalla(QDialog):
 		max-height: 30px;
 	}
 	QToolButton:hover {
-		background-color: blue;
+		background-color: #1280a4;
 		color: white;
 	}
 """)		
@@ -665,7 +665,7 @@ class Pantalla(QDialog):
 		max-height: 10px;
 	}
 	QToolButton:hover {
-		background-color: blue;
+		background-color: #1280a4;
 		color: white;
 	}
 """)

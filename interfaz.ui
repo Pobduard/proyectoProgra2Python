@@ -40,7 +40,7 @@ border-radius: 10px;
 }
 
 QToolButton{
-  background: #00ABE4;
+  background: #17A0CD;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -55,7 +55,7 @@ font:bold
 }
 
 QToolButton:hover {
-    background-color: #3e8e41;
+    background-color: #1280a4;
 }
 
 
@@ -140,7 +140,7 @@ QToolButton{
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>-40</x>
+      <x>-80</x>
       <y>0</y>
       <width>371</width>
       <height>80</height>
@@ -469,7 +469,7 @@ border:none
     </property>
     <property name="styleSheet">
      <string notr="true">QToolButton{
-  background: #00ABE4;
+  background: #17A0CD;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -480,7 +480,7 @@ font:bold
 }
 
 QToolButton:hover {
-    background-color: #3e8e41;
+    background-color: #1280a4;;
 }</string>
     </property>
     <property name="text">
@@ -599,7 +599,7 @@ QToolButton:hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QToolButton{
-  background: #00ABE4;
+  background: #E5383B;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -609,9 +609,10 @@ font:bold
  
 }
 
-QToolButton:hover {
-    background-color: #3e8e41;
-}</string>
+QToolButton:hover{
+	background:#e22125;
+}
+</string>
     </property>
     <property name="text">
      <string>ELIMINAR</string>
@@ -628,7 +629,7 @@ QToolButton:hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background: red;
+	background: #E5383B;
 	font-family:Helvetica;
 	font-weight: bold;
 	border: 0.5px solid #C7C7C7
