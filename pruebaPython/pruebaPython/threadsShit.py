@@ -20,7 +20,7 @@ def doWork():
 	num: int = 0
 	while not condition:
 		print("Thread", num)
-		time.sleep(1)
+		time.sleep(10)
 		num += 1
 	kListener.stop()
 	print("Thread should have ended")

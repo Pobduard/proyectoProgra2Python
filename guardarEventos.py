@@ -25,6 +25,7 @@ keyIsPressed: bool = False
 NombreNuevaSecuencia : str 
 TiempoDeRepeticion = 10
 secuenciasCargadas = False
+hiloProceso: threading.Thread
 
 
 def getLastEvent(x:int = -100, y:int = -100) -> dict:
@@ -180,7 +181,6 @@ def keyReleaseGrabar(key: pynputKey.Key):
 		# print("End")
 
 def keyPressEjecutar(key: pynputKey.Key):
-	print(key.name)
 	if key == pynputKey.Key.esc:
 		global kListener, window
 		window.stopKeyListenerSignal.emit()
@@ -451,9 +451,7 @@ class Pantalla(QDialog):
 				ejecutar(self.layoutDerecha.itemAt(i).widget().text())
 		
 
-		# self.hiloRepeticiones = threading.Timer(TiempoDeRepeticion, self.ejecucion)
-		# self.hiloRepeticiones.start()
-
+#TODO:
 
 	def startKeyListener(self):
 		print("Llamado StartKeyListener")
@@ -464,12 +462,10 @@ class Pantalla(QDialog):
 	def stopKeyListener(self):
 		print("Llamado StopKeyListener")
 		global kListener
-		self.hiloRepeticiones.finished.clear()
-		self.hiloRepeticiones.finished.wait()
+#TODO:
 		if kListener is not None:	#& Asegurarse que no sea nulo, pa evitar peos
 			print("KeyDetenido")
 			kListener.stop()	
-		print(f"Ejecucion Detenida, HiloAlive?: {self.hiloRepeticiones.is_alive()} | ListenerAlive?: {kListener.is_alive()}")
 		kListener = None
 
 	def BotonIniciar(self):
@@ -484,7 +480,6 @@ class Pantalla(QDialog):
 		else:
 			
 			self.ejecucion()
-			
 
 
 	def estilizarScrollArea(self):

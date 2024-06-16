@@ -10,10 +10,8 @@ def callEventos(diccionario: list[dict]):
 	
 	esa funcion que llama es la que se encargara de realizar el evento como tal y el resto de sus valores
 	"""
-	timer: threading.Timer = None
 	for index, evento in enumerate(diccionario):
 		print(f"\tSleep: {evento.get("timeSince")}")
-		# threading.Timer(evento.get("timeSince"), do_nothing)
 		time.sleep(evento.get("timeSince"))
 		eventName: str = evento.get("name")
 
@@ -29,7 +27,6 @@ def callEventos(diccionario: list[dict]):
 			case "mouseScroll":
 				mouseScroll(evento)
 		print(f"\t\t|Evento{index}|: evento: {evento}")
-		# timer.cancel()
 
 def do_nothing():
 	print("\t\t\t\t\t|did nothing")
@@ -124,3 +121,7 @@ def getJsons(path: str = "./secuenciasUsuario") -> list[str]:
 	listaJsonNames = sorted(listaJsonNames, key=str.lower)
 	listaJsonNames = sorted(listaJsonNames, key=sortNumberNames)
 	return listaJsonNames
+
+def deleteFile(path: str = "./secuenciasUsuario"):
+	pass
+	os.remove()
