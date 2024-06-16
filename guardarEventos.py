@@ -25,6 +25,7 @@ keyIsPressed: bool = False
 NombreNuevaSecuencia : str 
 TiempoDeRepeticion = 10
 secuenciasCargadas = False
+EnModoEliminaar = False
 hiloProceso: threading.Thread
 
 
@@ -259,13 +260,16 @@ class Pantalla(QDialog):
 		self.ApartadoTextpGrabar = self.FrameDelApartadoGrabar
 		self.ApartadoTextpEjecutar = self.FrameDelApartadoEjecutar
 		self.ApartadoTextElegirModo = self.FrameDelApartadoElegirModo
+		self.ApartadoTextModoEliminar = self.FrameDelApartadoModoEliminar
+		self.BotonModoEliminar = self.BotonModoEliminar
 
 		self.ApartadoTextpEjecutar.setVisible(False)
 		self.ApartadoTextpGrabar.setVisible(False)
+		self.ApartadoTextModoEliminar.setVisible(False)
 		
 
 
-
+		self.BotonModoEliminar.setVisible(False)
 		self.botonIniciar.setVisible(False)
 		self.ApartadoIngresarNombre.setVisible(False)
 		self.ApartadoIngresarTiempoDeRepeticion.setVisible(False)
@@ -305,7 +309,7 @@ class Pantalla(QDialog):
 
 		self.show()
 		
-
+		self.BotonModoEliminar.clicked.connect(self.ModoEliminar)
 		self.botonGrabar.clicked.connect(self.TextoGrabar)
 		self.botonEjecutar.clicked.connect(self.TextoEjecutar)
 		self.botonIniciar.clicked.connect(self.BotonIniciar)
@@ -319,11 +323,58 @@ class Pantalla(QDialog):
 			bloque.deleteLater()
 
 
+	def eliminarBloqueIndividual(self):
+		boton = self.sender()
+		boton.deleteLater()
+
+	def ModoEliminar(self):
+		global EnModoEliminaar
+
+		if(EnModoEliminaar == False):
+			self.ApartadoTextpEjecutar.setVisible(False)
+			self.ApartadoTextElegirModo.setVisible(False)
+			self.ApartadoTextModoEliminar.setVisible(True)
+			self.ApartadoTextpGrabar.setVisible(False)
+
+			for i in range (self.layoutDerecha.count()):
+				if(self.layoutDerecha.count() > 0):
+					bloque = self.layoutDerecha.itemAt(i).widget()
+					bloque.clicked.connect(self.eliminarBloqueIndividual)
+
+			for i in range (self.layoutIzquierda.count()):
+				bloque = self.layoutIzquierda.itemAt(i).widget()
+				bloque.disconnect()
+				bloque.clicked.connect(self.eliminarBloqueIndividual)
+
+			EnModoEliminaar = True	
+		
+		else:
+
+			self.ApartadoTextpEjecutar.setVisible(True)
+			self.ApartadoTextElegirModo.setVisible(False)
+			self.ApartadoTextModoEliminar.setVisible(False)
+			self.ApartadoTextpGrabar.setVisible(False)
+
+			for i in range (self.layoutDerecha.count()):
+				if(self.layoutDerecha.count() > 0):
+					bloque = self.layoutDerecha.itemAt(i).widget()
+					bloque.disconnect()
+					
+
+			for i in range (self.layoutIzquierda.count()):
+				bloque = self.layoutIzquierda.itemAt(i).widget()
+				bloque.disconnect()
+				bloque.clicked.connect(self.manejar_click)
+
+			EnModoEliminaar = False
+
 	def TextoGrabar(self) :
 		self.eliminarBloquesDerecha()
 		self.botonIniciar.setVisible(True)
+		self.BotonModoEliminar.setVisible(False)
 		self.ApartadoTextpEjecutar.setVisible(False)
 		self.ApartadoTextElegirModo.setVisible(False)
+		self.ApartadoTextModoEliminar.setVisible(False)
 		self.ApartadoTextpGrabar.setVisible(True)
 		global grabarJson
 		grabarJson = True	#& Se grabara el Json cuando se pulde el boton de iniciar
@@ -335,7 +386,9 @@ class Pantalla(QDialog):
 
 	def TextoEjecutar(self) :
 		self.botonIniciar.setVisible(True)
+		self.BotonModoEliminar.setVisible(True)
 		self.ApartadoTextpEjecutar.setVisible(True)
+		self.ApartadoTextModoEliminar.setVisible(False)
 		self.ApartadoTextElegirModo.setVisible(False)
 		self.ApartadoTextpGrabar.setVisible(False)
 		self.estilizarScrollArea()
@@ -390,7 +443,7 @@ class Pantalla(QDialog):
 		max-height: 10px;
 	}
 	QToolButton:hover {
-		background-color: blue;
+		background-color: #1280a4;
 		color: white;
 	}
 """)
@@ -426,7 +479,7 @@ class Pantalla(QDialog):
 		max-height: 30px;
 	}
 	QToolButton:hover {
-		background-color: blue;
+		background-color: #1280a4;
 		color: white;
 	}
 """)		
@@ -469,7 +522,7 @@ class Pantalla(QDialog):
 		kListener = None
 
 	def BotonIniciar(self):
-		global grabarJson
+		global grabarJson,EnModoEliminaar
 		if(grabarJson):
 			self.AgregarNuevoBloque()
 			self.showMinimized()
@@ -478,8 +531,9 @@ class Pantalla(QDialog):
 
 
 		else:
+			if(EnModoEliminaar == False):
+				self.ejecucion()
 			
-			self.ejecucion()
 
 
 	def estilizarScrollArea(self):
@@ -535,7 +589,7 @@ class Pantalla(QDialog):
 		max-height: 10px;
 	}
 	QToolButton:hover {
-		background-color: blue;
+		background-color: #1280a4;
 		color: white;
 	}
 """)
