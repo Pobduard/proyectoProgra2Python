@@ -123,5 +123,4 @@ def getJsons(path: str = "./secuenciasUsuario") -> list[str]:
 	return listaJsonNames
 
 def deleteFile(path: str = "./secuenciasUsuario"):
-	pass
-	os.remove()
+	os.remove(f"./secuenciasUsuario/{path}.json")
