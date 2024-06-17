@@ -2,7 +2,7 @@
 Aqui se encuentran todos los eventos creados hasta el momento, y la funcion para llamarlos
 """
 
-import time, pyautogui, json, pynput, os, re, threading
+import time, pyautogui, json, pynput, os, re
 
 def callEventos(diccionario: list[dict]):
 	"""
@@ -28,11 +28,6 @@ def callEventos(diccionario: list[dict]):
 				mouseScroll(evento)
 		print(f"\t\t|Evento{index}|: evento: {evento}")
 
-def do_nothing():
-	print("\t\t\t\t\t|did nothing")
-
-def do_nothing():
-	pass
 
 def mouseMove(evento: dict):
 	""" Mueve el Mouse a la Coordenada Enviada """
@@ -86,6 +81,9 @@ def mouseUp(evento: dict):
 	pynput.mouse.Controller.release(control, boton)
 
 	del control
+
+def typeKey(evento: dict):
+	pass
 
 def writeJson(name: str, lista: list[dict], indentacion: int = 2):
 	"""

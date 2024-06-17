@@ -30,6 +30,7 @@ hiloProcesoEjecucion: threading.Thread
 hiloProcesoGrabar: threading.Thread
 enEjecucion = False
 enGrabado = False
+currentPressGrabar: set[pynputKey.Key] = set()
 
 
 def getLastEvent(x:int = -100, y:int = -100) -> dict:
@@ -162,9 +163,8 @@ def mouseScroll(x: int, y:int, dx: int, dy: int):
 
 
 def keyPressGrabar(key: pynputKey.Key):
-	print(key.name)
-
-def keyReleaseGrabar(key: pynputKey.Key):
+	global currentPressGrabar
+	print(key, "Actuales:", len(currentPressGrabar))
 	if key == pynputKey.Key.esc:
 		global mListener, kListener, window, grabarJson, NombreNuevaSecuencia, enGrabado
 		mListener.stop()	#& MouseListener Detenido
@@ -174,7 +174,28 @@ def keyReleaseGrabar(key: pynputKey.Key):
 		writeJson(NombreNuevaSecuencia, lista=eventosDict, indentacion=2)	#& Modificar Json
 		print("Nuevo Json Guardado")
 		enGrabado = False
-		window.normalizarVentana.emit()
+	if(key == pynputKey.Key.ctrl or key == pynputKey.Key.ctrl_l or key == pynputKey.Key.ctrl_r):
+#& TODO: CONTROL
+		print(key)	
+		return
+	else:
+		currentPressGrabar.add(key)
+		return
+
+def keyReleaseGrabar(key: pynputKey.Key):
+	global currentPressGrabar
+	long: int = len(currentPressGrabar)
+
+	if(long == 1):
+		tecla = key.char if (type(key) == pynput.keyboard.KeyCode) else (key.name)
+		print("Released: ", tecla)
+#& TODO: Añadir Accion
+	else:	#+ < 1
+		teclas = [t.name if type(t) == pynput.keyboard.Key else t.char for t in currentPressGrabar]
+		print("Multiple Released: ", teclas)
+#& TODO: Añadir Accion
+
+	currentPressGrabar.clear()	#& Cada vez que se deja de pulsar, se limpia TODAS las letras actuales (Si es una combinacion, se pulsarian a la vez de todas formas)
 
 def keyPressEjecutar(key: pynputKey.Key):
 	if key == pynputKey.Key.esc:
@@ -201,8 +222,6 @@ def grabar():
 	global mListener, kListener
 	global window
 
-	window.minimizarVentana.emit()
-
 	initialTime = time.time()
 	tiempoPrevio = 0.0
 
@@ -215,6 +234,7 @@ def grabar():
 	while enGrabado:
 		time.sleep(1)	#& Para que ojala el hilo se mantenga activo
 	print("EndGrabar")
+	window.normalizarVentana.emit()	#& Final de hilo
 
 
 def ejecutar(name: str = "testSecuencia"):
@@ -319,6 +339,7 @@ class Pantalla(QDialog):
 
 	def ModoEliminar(self):
 		global EnModoEliminaar
+		self.eliminarBloquesDerecha()
 
 		if(EnModoEliminaar == False):
 			self.ApartadoTextpEjecutar.setVisible(False)
@@ -430,7 +451,8 @@ class Pantalla(QDialog):
 
 		if(self.NombreNuevoBloque == ""):
 			time = datetime.now()
-			self.NombreNuevoBloque = str((f"{time.minute}-{time.hour}_{time.day}-{time.month}-{time.year}"))	
+			NombreNuevaSecuencia = str((f"{time.minute}-{time.hour}_{time.day}-{time.month}-{time.year}"))
+			self.NombreNuevoBloque = NombreNuevaSecuencia
 
 		self.nuevoBoton.setText(self.NombreNuevoBloque)
 		self.layoutIzquierda.addWidget(self.nuevoBoton)
@@ -494,12 +516,15 @@ class Pantalla(QDialog):
 				for i in range(self.layoutDerecha.count()):
 					print(f"ejecutando la Secuencia {self.layoutDerecha.itemAt(i).widget().text()}")
 					ejecutar(self.layoutDerecha.itemAt(i).widget().text())
+			self.Normalizar()	#& Final de Hilo
+			print("Normalizado Ejecucion")
 
 
 	def createThreadEjecucion(self):
 		global hiloProcesoEjecucion
 		self.startKeyListener()
-		print("Llamado Creacion Hilo Ejecuion")
+		print("Llamado Creacion Hilo Ejecucion")
+		self.Minimizar()
 		hiloProcesoEjecucion = threading.Thread(target=self.ejecucion, name="HiloEjecutar")
 		hiloProcesoEjecucion.start()
 
@@ -512,6 +537,7 @@ class Pantalla(QDialog):
 	def createThreadGrabar(self):
 		global hiloProcesoGrabar
 		print("Llamado Creacion Hilo Grabar")
+		self.Minimizar()
 		hiloProcesoGrabar = threading.Thread(target=grabar, name="HiloGrabado")
 		hiloProcesoGrabar.start()
 
@@ -522,7 +548,7 @@ class Pantalla(QDialog):
 		if kListener is not None:	#& Asegurarse que no sea nulo, pa evitar peos
 			print("KeyDetenido")
 			enEjecucion = False
-			kListener.stop()	
+			kListener.stop()
 		kListener = None
 
 

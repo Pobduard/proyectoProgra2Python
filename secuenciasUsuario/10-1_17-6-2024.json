@@ -1,0 +1,19 @@
+[
+  {
+    "name": "mouseMove",
+    "timeSince": 0.395421,
+    "x": 563,
+    "y": 432
+  },
+  {
+    "name": "mouseDown",
+    "timeSince": 0.05356,
+    "button": "left"
+  },
+  {
+    "name": "click_left",
+    "timeSince": 0.067135,
+    "x": 563,
+    "y": 432
+  }
+]
