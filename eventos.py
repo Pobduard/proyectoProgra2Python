@@ -2,7 +2,7 @@
 Aqui se encuentran todos los eventos creados hasta el momento, y la funcion para llamarlos
 """
 
-import time, pyautogui, json, pynput, os, re, threading
+import time, pyautogui, json, pynput, os, re
 
 def callEventos(diccionario: list[dict]):
 	"""
@@ -12,7 +12,6 @@ def callEventos(diccionario: list[dict]):
 	"""
 	for index, evento in enumerate(diccionario):
 		print(f"\tSleep: {evento.get("timeSince")}")
-		# threading.Timer(evento.get("timeSince"), do_nothing)
 		time.sleep(evento.get("timeSince"))
 		eventName: str = evento.get("name")
 
@@ -29,8 +28,6 @@ def callEventos(diccionario: list[dict]):
 				mouseScroll(evento)
 		print(f"\t\t|Evento{index}|: evento: {evento}")
 
-def do_nothing():
-	pass
 
 def mouseMove(evento: dict):
 	""" Mueve el Mouse a la Coordenada Enviada """
@@ -85,6 +82,9 @@ def mouseUp(evento: dict):
 
 	del control
 
+def typeKey(evento: dict):
+	pass
+
 def writeJson(name: str, lista: list[dict], indentacion: int = 2):
 	"""
 	- `name` = Nombre a ponerle al archivo (para que el usuario pueda en un futuro nombrar sus propias secuencias)
@@ -119,3 +119,6 @@ def getJsons(path: str = "./secuenciasUsuario") -> list[str]:
 	listaJsonNames = sorted(listaJsonNames, key=str.lower)
 	listaJsonNames = sorted(listaJsonNames, key=sortNumberNames)
 	return listaJsonNames
+
+def deleteFile(path: str = "./secuenciasUsuario"):
+	os.remove(f"./secuenciasUsuario/{path}.json")

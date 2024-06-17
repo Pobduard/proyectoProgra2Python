@@ -1,0 +1,32 @@
+[
+  {
+    "name": "mouseMove",
+    "timeSince": 2.23719,
+    "x": 25,
+    "y": 749
+  },
+  {
+    "name": "click_left",
+    "timeSince": 0.359165,
+    "x": 25,
+    "y": 749
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 1.187704,
+    "x": 308,
+    "y": 472
+  },
+  {
+    "name": "click_left",
+    "timeSince": 0.202962,
+    "x": 308,
+    "y": 472
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 1.453288,
+    "x": 814,
+    "y": 379
+  }
+]

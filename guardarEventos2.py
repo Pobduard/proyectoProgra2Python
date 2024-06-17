@@ -559,10 +559,12 @@ class Pantalla(QDialog):
 			self.showMinimized()
 			enGrabado = True
 			self.createThreadGrabar()
+			self.TextoEjecutar()
 		else:
 			if(EnModoEliminaar == False):
 				enEjecucion = True
 				self.createThreadEjecucion()
+				self.TiempoIngresado.setText("")
 
 
 	def estilizarScrollArea(self):

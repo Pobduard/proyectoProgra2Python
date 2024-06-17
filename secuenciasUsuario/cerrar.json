@@ -1,0 +1,46 @@
+[
+  {
+    "name": "mouseMove",
+    "timeSince": 2.416803,
+    "x": 1261,
+    "y": 17
+  },
+  {
+    "name": "mouseDown",
+    "timeSince": 0.748218,
+    "button": "left"
+  },
+  {
+    "name": "mouseUp",
+    "timeSince": 0.14925,
+    "button": "left"
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 0.930012,
+    "x": 896,
+    "y": 116
+  },
+  {
+    "name": "mouseDown",
+    "timeSince": 0.078254,
+    "button": "left"
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 0.702995,
+    "x": 574,
+    "y": 655
+  },
+  {
+    "name": "mouseUp",
+    "timeSince": 0.093966,
+    "button": "left"
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 2.954328,
+    "x": 589,
+    "y": 678
+  }
+]
