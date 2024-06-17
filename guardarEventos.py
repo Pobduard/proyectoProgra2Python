@@ -12,6 +12,13 @@ from datetime import datetime
 from PyQt6.QtGui import QIntValidator
 import threading
 
+
+"""
+&	Autores:
+&	Jesus Miguel Mora Colmenares	C.I: 30.351.836
+&	Jaiber Eduardo Arellano Ibarra	C.I: 30.338.584
+"""
+
 pyautogui.FAILSAFE = False	#& Desactivar el FailSafe que posee PyAutoGui, ya tenemos las cosas que se puedan detener sin problemas
 eventosDict: list[dict] = []
 keysList: list[str] = []
