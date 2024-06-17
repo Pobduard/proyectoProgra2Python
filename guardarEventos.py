@@ -12,6 +12,7 @@ from datetime import datetime
 from PyQt6.QtGui import QIntValidator
 import threading
 
+pyautogui.FAILSAFE = False	#& Desactivar el FailSafe que posee PyAutoGui, ya tenemos las cosas que se puedan detener sin problemas
 eventosDict: list[dict] = []
 keysList: list[str] = []
 initialTime: float
@@ -202,8 +203,8 @@ def keyPressEjecutar(key: pynputKey.Key):
 		global kListener, window
 		window.stopKeyListenerSignal.emit()
 
-def keyReleaseEjecutar(key: pynputKey.Key):
-	print(f"Released: {key.name}")
+def keyReleaseEjecutar(key: pynputKey.KeyCode):
+	print(f"Released: {key.char}")
 
 
 def main():
@@ -253,19 +254,19 @@ class Pantalla(QDialog):
 		uic.loadUi("interfaz.ui", self)
 		self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint | QtCore.Qt.WindowType.WindowMaximizeButtonHint) #& Minimizar/Maximizar
 		self.setWindowTitle("PyDesk")
-		self.frames = []
+		self.frames: list = []
 		self.botonGrabar: QToolButton = self.GRABAR
 		self.botonEjecutar: QToolButton = self.EJECUTAR
 		self.botonIniciar: QToolButton = self.INICIAR 
 		self.labelApartado: QLabel = self.TextoDelApartado
-		self.TiempoIngresado = self.lineEdit_2
-		self.ApartadoIngresarNombre = self.NombreDelBloque
-		self.ApartadoIngresarTiempoDeRepeticion = self.NombreDelBloque_2
-		self.ApartadoTextpGrabar = self.FrameDelApartadoGrabar
-		self.ApartadoTextpEjecutar = self.FrameDelApartadoEjecutar
-		self.ApartadoTextElegirModo = self.FrameDelApartadoElegirModo
-		self.ApartadoTextModoEliminar = self.FrameDelApartadoModoEliminar
-		self.BotonModoEliminar = self.BotonModoEliminar
+		self.TiempoIngresado: QLineEdit = self.lineEdit_2
+		self.ApartadoIngresarNombre: QLineEdit = self.NombreDelBloque
+		self.ApartadoIngresarTiempoDeRepeticion: QLineEdit = self.NombreDelBloque_2
+		self.ApartadoTextpGrabar: QLabel = self.FrameDelApartadoGrabar
+		self.ApartadoTextpEjecutar: QLabel = self.FrameDelApartadoEjecutar
+		self.ApartadoTextElegirModo: QLabel = self.FrameDelApartadoElegirModo
+		self.ApartadoTextModoEliminar: QLabel = self.FrameDelApartadoModoEliminar
+		self.BotonModoEliminar: QToolButton = self.BotonModoEliminar
 
 		self.ApartadoTextpEjecutar.setVisible(False)
 		self.ApartadoTextpGrabar.setVisible(False)
@@ -279,11 +280,12 @@ class Pantalla(QDialog):
 
 		intValidator = QIntValidator()
 		self.TiempoIngresado.setValidator(intValidator)
+		self.TiempoIngresado.setText("")
 
 
-		self.radioButtonSegundos = self.radioButton
-		self.radioButtonHora = self.radioButton_2
-		self.radioButtonMinutos = self.radioButton_3
+		self.radioButtonSegundos: QRadioButton = self.radioButton
+		self.radioButtonHora: QRadioButton = self.radioButton_2
+		self.radioButtonMinutos: QRadioButton = self.radioButton_3
 
 		self.radioButtonSegundos.setChecked(True)
 		self.radioButtonSegundos.toggled.connect(self.establecerTiempoDeRepeticion)
@@ -296,7 +298,7 @@ class Pantalla(QDialog):
 		self.layoutDerecha = QVBoxLayout()#en este layout podremos agregar elementos nuevos
 		self.layoutDerecha.setContentsMargins(15, 20, 20, 20)#le pongo margenes a donde se ponen los labels que agregarre , porque sino quedan todos pegados a la izquierda
 		self.widgetDerecha.setLayout(self.layoutDerecha)
-		self.AreaDeBloques2 = self.scrollArea2#esta scroll area es para hacer el efecto ese de bajar entre los bloques
+		self.AreaDeBloques2: QScrollArea = self.scrollArea2#esta scroll area es para hacer el efecto ese de bajar entre los bloques
 		self.AreaDeBloques2.setWidgetResizable(True)
 		self.AreaDeBloques2.setWidget(self.widgetDerecha)
 
@@ -305,7 +307,7 @@ class Pantalla(QDialog):
 		self.layoutIzquierda = QVBoxLayout()#en este layout podremos agregar elementos nuevos
 		self.layoutIzquierda.setContentsMargins(15, 20, 20, 20)#le pongo margenes a donde se ponen los labels que agregarre , porque sino quedan todos pegados a la izquierda
 		self.widgetIzquierda.setLayout(self.layoutIzquierda)
-		self.AreaDeBloques = self.scrollArea1#esta scroll area es para hacer el efecto ese de bajar entre los bloques
+		self.AreaDeBloques: QScrollArea = self.scrollArea1#esta scroll area es para hacer el efecto ese de bajar entre los bloques
 		self.AreaDeBloques.setWidgetResizable(True)
 		self.AreaDeBloques.setWidget(self.widgetIzquierda)
 
@@ -407,6 +409,7 @@ class Pantalla(QDialog):
 		self.ApartadoTextElegirModo.setVisible(False)
 		self.ApartadoTextpGrabar.setVisible(False)
 		self.estilizarScrollArea()
+		self.TiempoIngresado.setText("1")
 
 		global secuenciasCargadas
 		
@@ -438,9 +441,9 @@ class Pantalla(QDialog):
 		border: none;
 		border-radius: 3px;
 		min-width: 148px;
-		min-height: 10px;
+		min-height: 15px;
 		max-width: 148px;
-		max-height: 10px;
+		max-height: 20px;
 	}
 	QToolButton:hover {
 		background-color: #1280a4;
@@ -562,13 +565,11 @@ class Pantalla(QDialog):
 			self.showMinimized()
 			enGrabado = True
 			self.createThreadGrabar()
-			self.TextoEjecutar()
-			self.TiempoIngresado().setText("")
+			# self.TextoEjecutar()
 		else:
 			if(EnModoEliminaar == False):
 				enEjecucion = True
 				self.createThreadEjecucion()
-				self.TiempoIngresado().setText("")
 
 
 	def estilizarScrollArea(self):
@@ -618,9 +619,9 @@ class Pantalla(QDialog):
 		border: none;
 		border-radius: 3px;
 		min-width: 148px;
-		min-height: 10px;
+		min-height: 15px;
 		max-width: 148px;
-		max-height: 10px;
+		max-height: 20px;
 	}
 	QToolButton:hover {
 		background-color: #1280a4;

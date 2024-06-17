@@ -77,6 +77,9 @@ QToolButton:hover {
       <height>30</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Modo &amp;quot;Grabar&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="text">
      <string>Grabar</string>
     </property>
@@ -89,6 +92,9 @@ QToolButton:hover {
       <width>110</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Modo &amp;quot;Ejecutar&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string>Ejecutar</string>
