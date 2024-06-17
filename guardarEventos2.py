@@ -513,7 +513,6 @@ class Pantalla(QDialog):
 	def ejecucion(self):
 		global TiempoDeRepeticion, enEjecucion
 		if self.layoutDerecha.count() != 0 and self.TiempoIngresado.text() != "":
-			# self.establecerTiempoDeRepeticion()
 			self.showMinimized()
 			while enEjecucion:
 				for i in range(self.layoutDerecha.count()):
@@ -563,10 +562,13 @@ class Pantalla(QDialog):
 			self.showMinimized()
 			enGrabado = True
 			self.createThreadGrabar()
+			self.TextoEjecutar()
+			self.TiempoIngresado().setText("")
 		else:
 			if(EnModoEliminaar == False):
 				enEjecucion = True
 				self.createThreadEjecucion()
+				self.TiempoIngresado().setText("")
 
 
 	def estilizarScrollArea(self):
