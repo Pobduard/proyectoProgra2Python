@@ -23,13 +23,13 @@ mouseIsMoving: bool = False
 mouseIsDown: bool = False
 keyIsPressed: bool = False
 NombreNuevaSecuencia : str 
-TiempoDeRepeticion = 10
-secuenciasCargadas = False
-EnModoEliminaar = False
+TiempoDeRepeticion: int = 1
+secuenciasCargadas: bool = False
+EnModoEliminaar: bool = False
 hiloProcesoEjecucion: threading.Thread
 hiloProcesoGrabar: threading.Thread
-enEjecucion = False
-enGrabado = False
+enEjecucion: bool = False
+enGrabado: bool = False
 currentPressGrabar: set[pynputKey.Key] = set()
 
 
@@ -495,27 +495,31 @@ class Pantalla(QDialog):
 
 	def establecerTiempoDeRepeticion(self, checked):
 		global TiempoDeRepeticion
+		texto: str = self.TiempoIngresado.text()
+		if (texto == ""):
+			texto = "1"
 		if (checked):
 			if self.sender() is self.radioButtonSegundos:
-				TiempoDeRepeticion = int(self.TiempoIngresado.text())
+				TiempoDeRepeticion = int(texto)
 				# Realizar acciones para la opción 1
 			elif self.sender() is self.radioButtonHora :
-				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 3600
+				TiempoDeRepeticion = int(texto) * 3600
 				# Realizar acciones para la opción 2
 			elif self.sender() is self.radioButtonMinutos:
-				TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 60
+				TiempoDeRepeticion = int(texto) * 60
 				# Realizar acciones para la opción 2
 
 
 	def ejecucion(self):
 		global TiempoDeRepeticion, enEjecucion
 		if self.layoutDerecha.count() != 0 and self.TiempoIngresado.text() != "":
+			# self.establecerTiempoDeRepeticion()
 			self.showMinimized()
 			while enEjecucion:
-				time.sleep(TiempoDeRepeticion)
 				for i in range(self.layoutDerecha.count()):
 					print(f"ejecutando la Secuencia {self.layoutDerecha.itemAt(i).widget().text()}")
 					ejecutar(self.layoutDerecha.itemAt(i).widget().text())
+				time.sleep(TiempoDeRepeticion)
 			self.Normalizar()	#& Final de Hilo
 			print("Normalizado Ejecucion")
 
