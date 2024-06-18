@@ -77,6 +77,9 @@ QToolButton:hover {
       <height>30</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;En este apartado podrás grabar secuencias de acciones (inputs) para que despues las puedas repetir en el apartado de ejecucion&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="text">
      <string>Grabar</string>
     </property>
@@ -89,6 +92,9 @@ QToolButton:hover {
       <width>110</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;En este apartado podrás hacer que se ejecute una o varias secuencias cada cierto tiempo, , de acciones que hayas grabado anteriormente&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string>Ejecutar</string>
@@ -103,6 +109,9 @@ QToolButton:hover {
       <height>461</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Aqui se muestran los bloques previamente creados por los usuarios&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color:#F7F7F7;
 border:none;
@@ -116,11 +125,9 @@ QToolButton{
   border: none;
   border-radius: 5px;
     min-width: 70px;
-    min-height: 10px;
+    min-height: 15px;
     max-width: 70px;
-    max-height: 10px;
-
- 
+    max-height: 20px;
 }</string>
     </property>
     <property name="widgetResizable">
@@ -165,6 +172,9 @@ QToolButton{
      <width>551</width>
      <height>551</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;En este apartado se verán las secuencias que se van a ejecutar&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
     <string notr="true">QFrame{
@@ -247,6 +257,9 @@ QToolButton{
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QScrollArea" name="scrollArea2">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;En este apartado se verán las secuencias que se van a ejecutar&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">background:#F7F7F7</string>
        </property>
@@ -271,6 +284,9 @@ QToolButton{
            <height>371</height>
           </rect>
          </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;En este apartado se verán las secuencias que se van a ejecutar&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
         </widget>
        </widget>
       </widget>
@@ -291,7 +307,7 @@ QToolButton{
 	background: #F7F7F7;
 	font-family:Helvetica;
 	font-weight: bold;
-	border: 0.5px solid #C7C7C7
+	border: 0.5px solid #C7C7C7;
 }</string>
     </property>
     <property name="frameShape">
@@ -328,11 +344,14 @@ QToolButton{
        <height>22</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tiempo entre ciclos enteros de secuencias&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="styleSheet">
-      <string notr="true">QLineEdit{
-	border-radius:5px
-	background:#F7F7F7
-}</string>
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>s</string>
      </property>
     </widget>
     <widget class="QRadioButton" name="radioButton_2">
@@ -411,7 +430,7 @@ QToolButton{
     min-width: 70px;
     min-height: 5px;
 
-font:bold
+font:bold;
 
  
 }</string>
@@ -450,6 +469,9 @@ border:none
        <height>22</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Si se deja en blanco, el nombre del bloque se llenara con el tiempo y dia actual al moento de grabarlo&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">QLineEdit{
 	border-radius:5px
@@ -466,6 +488,9 @@ border:none
       <width>161</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Iniciar la Grabacion/Ejecucion dependiendo del apartado actual, ambos se finalizan presionando la tecla de escape &amp;quot;Esc&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QToolButton{
@@ -484,7 +509,7 @@ QToolButton:hover {
 }</string>
     </property>
     <property name="text">
-     <string>boton inicar</string>
+     <string>Iniciar</string>
     </property>
    </widget>
    <widget class="QFrame" name="FrameDelApartadoEjecutar">
@@ -495,6 +520,9 @@ QToolButton:hover {
       <width>489</width>
       <height>34</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Selecciona la cantidad de secuencias deseadas, estas se ejecutaran de arriba a abajo en ciclo hasta que se les desee detener presionando la tecla de escape &amp;quot;Esc&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
@@ -539,6 +567,9 @@ QToolButton:hover {
       <height>34</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Una vez inicie el grabado, se minimzara la pestaña, el mismo acabara cuando se precione la tecla de escape &amp;quot;Esc&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
 	background: #FFFFFF;
@@ -582,6 +613,9 @@ QToolButton:hover {
       <height>80</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="styleSheet">
      <string notr="true">border: 1px solid #C7C7C7;
 
@@ -596,6 +630,9 @@ QToolButton:hover {
       <width>141</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Activa el modo para eliminar los bloques, se le tiene que volver a pulsar para salir de dicho modo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QToolButton{
@@ -626,6 +663,9 @@ QToolButton:hover{
       <width>489</width>
       <height>34</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dale click a una secuencia de la izquierda para eliminarla por completo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{

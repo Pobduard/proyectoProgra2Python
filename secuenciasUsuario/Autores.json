@@ -1,0 +1,1242 @@
+[
+  {
+    "name": "keyPress",
+    "timeSince": 1.084779,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.127525,
+    "key": "J"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.080707,
+    "key": "J"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.019736,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.143667,
+    "key": "e"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.064394,
+    "key": "e"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.136119,
+    "key": "s"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.077348,
+    "key": "s"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.085279,
+    "key": "u"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.058745,
+    "key": "u"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.052589,
+    "key": "s"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.067291,
+    "key": "s"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.62331,
+    "key": "space"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.069889,
+    "key": "space"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.114825,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.102488,
+    "key": "M"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.060943,
+    "key": "M"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.056685,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.043272,
+    "key": "i"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.064865,
+    "key": "i"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.188025,
+    "key": "g"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.057156,
+    "key": "g"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.111432,
+    "key": "u"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.080275,
+    "key": "u"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.017617,
+    "key": "e"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.072134,
+    "key": "e"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.083884,
+    "key": "l"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.06284,
+    "key": "l"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.200687,
+    "key": "space"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.066465,
+    "key": "space"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.102496,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.121783,
+    "key": "M"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.058446,
+    "key": "M"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.045213,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.09024,
+    "key": "o"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.052908,
+    "key": "o"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.232159,
+    "key": "r"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.05085,
+    "key": "r"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.065159,
+    "key": "a"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.068598,
+    "key": "a"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.347467,
+    "key": "space"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.071901,
+    "key": "space"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.076311,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.121319,
+    "key": "C"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.064145,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.051953,
+    "key": "o"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.056463,
+    "key": "o"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.106102,
+    "key": "l"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.051528,
+    "key": "l"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.117948,
+    "key": "m"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.055577,
+    "key": "m"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.015336,
+    "key": "e"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.06159,
+    "key": "e"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.137128,
+    "key": "r"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.055196,
+    "key": "r"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.207353,
+    "key": "a"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.057831,
+    "key": "a"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.097692,
+    "key": "n"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.025545,
+    "key": "n"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.604392,
+    "key": "e"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.078035,
+    "key": "e"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.144713,
+    "key": "s"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.075488,
+    "key": "s"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 2.350122,
+    "key": "backspace"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.057801,
+    "key": "backspace"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.112198,
+    "key": "backspace"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.04374,
+    "key": "backspace"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.086009,
+    "key": "backspace"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.056104,
+    "key": "backspace"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.074206,
+    "key": "backspace"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.070587,
+    "key": "backspace"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.089032,
+    "key": "backspace"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.06849,
+    "key": "backspace"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.087766,
+    "key": "backspace"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.082293,
+    "key": "backspace"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.766499,
+    "key": "e"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.060889,
+    "key": "e"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.108022,
+    "key": "n"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.082488,
+    "key": "n"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.030535,
+    "key": "a"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.066235,
+    "key": "a"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.105524,
+    "key": "r"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.058814,
+    "key": "r"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.041405,
+    "key": "e"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.068723,
+    "key": "e"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.115958,
+    "key": "s"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.084978,
+    "key": "s"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.648568,
+    "key": "tab"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.103406,
+    "key": "tab"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.598665,
+    "key": "shift"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.206125,
+    "key": "C"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.051823,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.211673,
+    "key": "."
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.05673,
+    "key": "."
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.065099,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.133373,
+    "key": "I"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.076972,
+    "key": "I"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.091472,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.375124,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.096574,
+    "key": ":"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.071136,
+    "key": ":"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.029047,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.388817,
+    "key": "space"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.078658,
+    "key": "space"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.212135,
+    "key": "3"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.090687,
+    "key": "3"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.048828,
+    "key": "0"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.065314,
+    "key": "0"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.594945,
+    "key": "."
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.080048,
+    "key": "."
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.889838,
+    "key": "3"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.068161,
+    "key": "3"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.142169,
+    "key": "5"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.060374,
+    "key": "5"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.119449,
+    "key": "1"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.108439,
+    "key": "1"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.544832,
+    "key": "."
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.075652,
+    "key": "."
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.764997,
+    "key": "8"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.079164,
+    "key": "8"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.306632,
+    "key": "3"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.073697,
+    "key": "3"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.071286,
+    "key": "6"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.064892,
+    "key": "6"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.633378,
+    "key": "enter"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.081409,
+    "key": "enter"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.466779,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.152951,
+    "key": "J"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.062085,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.084244,
+    "key": "a"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.071806,
+    "key": "i"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.011173,
+    "key": "a"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.053647,
+    "key": "i"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.118725,
+    "key": "b"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.073308,
+    "key": "b"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.011623,
+    "key": "e"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.084069,
+    "key": "e"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.093704,
+    "key": "r"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.049193,
+    "key": "r"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.089296,
+    "key": "space"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.069026,
+    "key": "space"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.14721,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.134892,
+    "key": "E"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.083275,
+    "key": "E"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.018507,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.526478,
+    "key": "d"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.082186,
+    "key": "d"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.071426,
+    "key": "u"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.063177,
+    "key": "u"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.022337,
+    "key": "a"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.069838,
+    "key": "a"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.085041,
+    "key": "d"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.057593,
+    "key": "d"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.037958,
+    "key": "r"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.036898,
+    "key": "r"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.328261,
+    "key": "o"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.073759,
+    "key": "o"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.545343,
+    "key": "backspace"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.062311,
+    "key": "backspace"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.090628,
+    "key": "backspace"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.061032,
+    "key": "backspace"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.070148,
+    "key": "backspace"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.072856,
+    "key": "backspace"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.073335,
+    "key": "backspace"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.074344,
+    "key": "backspace"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.496027,
+    "key": "a"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.109608,
+    "key": "a"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.122132,
+    "key": "r"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.060067,
+    "key": "r"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.140515,
+    "key": "d"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.074328,
+    "key": "d"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.048638,
+    "key": "o"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.062881,
+    "key": "o"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.151862,
+    "key": "space"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.033436,
+    "key": "space"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.068028,
+    "key": "shift"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.120998,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.625875,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.112494,
+    "key": "A"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.059548,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.042496,
+    "key": "r"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.071304,
+    "key": "r"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.067707,
+    "key": "e"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.071274,
+    "key": "e"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.14442,
+    "key": "l"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.068243,
+    "key": "l"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.06357,
+    "key": "l"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.060129,
+    "key": "l"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.05747,
+    "key": "a"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.066753,
+    "key": "a"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.031423,
+    "key": "n"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.060888,
+    "key": "n"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.138529,
+    "key": "o"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.074682,
+    "key": "o"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.195124,
+    "key": "space"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.07508,
+    "key": "space"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.078147,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.133563,
+    "key": "I"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.073207,
+    "key": "I"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.03127,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.093137,
+    "key": "b"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.082133,
+    "key": "b"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.056773,
+    "key": "a"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.070284,
+    "key": "a"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.059453,
+    "key": "r"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.062176,
+    "key": "r"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.069129,
+    "key": "r"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.077159,
+    "key": "r"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.063047,
+    "key": "a"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.059549,
+    "key": "a"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.16973,
+    "key": "tab"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.083084,
+    "key": "tab"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.81347,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.135257,
+    "key": "C"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.083364,
+    "key": "C"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.05088,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.131068,
+    "key": "."
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.061981,
+    "key": "."
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.091722,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.153384,
+    "key": "I"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.058991,
+    "key": "I"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.141537,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.216406,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.101143,
+    "key": ":"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.085103,
+    "key": ":"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.048962,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.111427,
+    "key": "space"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.070872,
+    "key": "space"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.398898,
+    "key": "3"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.08768,
+    "key": "3"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.051181,
+    "key": "0"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.073537,
+    "key": "0"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.156433,
+    "key": "."
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.072179,
+    "key": "."
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.190733,
+    "key": "3"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.077175,
+    "key": "3"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.060508,
+    "key": "3"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.098586,
+    "key": "3"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.059967,
+    "key": "8"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.074955,
+    "key": "8"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.265032,
+    "key": "."
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.068348,
+    "key": "."
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.398606,
+    "key": "5"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.095521,
+    "key": "5"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.073764,
+    "key": "8"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.074618,
+    "key": "8"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.557977,
+    "key": "4"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.049291,
+    "key": "4"
+  }
+]
