@@ -414,7 +414,9 @@ class Pantalla(QDialog):
 
 
 	def TextoGrabar(self) :
-		global secuenciasCargadas
+		global secuenciasCargadas, EnModoEliminaar
+		self.IngresoDeNombre:QLineEdit = self.lineEdit
+		self.IngresoDeNombre.setText("")
 		self.botonIniciar.setVisible(True)
 		self.BotonModoEliminar.setVisible(False)
 		self.ApartadoTextpEjecutar.setVisible(False)
@@ -430,6 +432,9 @@ class Pantalla(QDialog):
 		print("Preparado para Grabar Json ...")
 		self.ApartadoIngresarNombre.setVisible(True)
 		self.ApartadoIngresarTiempoDeRepeticion.setVisible(False)
+
+		if(EnModoEliminaar == True):
+			self.ModoEliminar()
 
 
 	def TextoEjecutar(self) :
@@ -455,6 +460,8 @@ class Pantalla(QDialog):
 		self.ApartadoIngresarNombre.setVisible(False)
 		self.ApartadoIngresarTiempoDeRepeticion.setVisible(True)
 
+		if(EnModoEliminaar == True):
+			self.ModoEliminar()
 
 	def AgregarNuevoBloque(self):
 		global grabarJson, NombreNuevaSecuencia
@@ -546,7 +553,7 @@ class Pantalla(QDialog):
 
 	def ejecucion(self):
 		global TiempoDeRepeticion, enEjecucion
-		if self.layoutDerecha.count() != 0 and self.TiempoIngresado.text() != "":
+		if self.layoutDerecha.count() != 0 and self.TiempoIngresado.text() != " ":
 			self.showMinimized()
 			while enEjecucion:
 				for i in range(self.layoutDerecha.count()):
@@ -598,6 +605,8 @@ class Pantalla(QDialog):
 			enGrabado = True
 			self.createThreadGrabar()
 			# self.TextoEjecutar()
+			self.TextoEjecutar()
+			grabarJson = False
 		else:
 			if(EnModoEliminaar == False):
 				enEjecucion = True

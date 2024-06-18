@@ -243,6 +243,5 @@ def getJsons(path: str = "./secuenciasUsuario") -> list[str]:
 	listaJsonNames = sorted(listaJsonNames, key=sortNumberNames)
 	return listaJsonNames
 
-
 def deleteFile(path: str = "./secuenciasUsuario"):
 	os.remove(f"./secuenciasUsuario/{path}.json")
