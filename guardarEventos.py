@@ -15,7 +15,8 @@ import threading
 
 """
 &	Autores:
-&	Jesus Miguel Mora Colmenares	C.I: 30.351.836
+&	Jesus Miguel Mora Colmenares	C.I: 30.351.83636
+
 &	Jaiber Eduardo Arellano Ibarra	C.I: 30.338.584
 """
 
@@ -232,8 +233,9 @@ def keyPressEjecutar(key: pynputKey.Key):
 		global kListener, window
 		window.stopKeyListenerSignal.emit()
 
-def keyReleaseEjecutar(key: pynputKey.KeyCode):
-	print(f"Released: {key.char}")
+def keyReleaseEjecutar(key):
+	key = key.char if (type(key) == pynputKey.KeyCode) else key.name
+	print(f"Released: {key}")
 
 
 def main():
@@ -587,7 +589,7 @@ class Pantalla(QDialog):
 		kListener = None
 
 
-	
+   
 	def BotonIniciar(self):
 		global grabarJson, EnModoEliminaar, enEjecucion, enGrabado
 		if(grabarJson):
