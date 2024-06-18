@@ -21,7 +21,6 @@ import threading
 
 pyautogui.FAILSAFE = False	#& Desactivar el FailSafe que posee PyAutoGui, ya tenemos las cosas que se puedan detener sin problemas
 eventosDict: list[dict] = []
-keysList: list[str] = []
 initialTime: float
 tiempoPrevio: float
 mListener: mouse.Listener | None = None
@@ -38,7 +37,7 @@ hiloProcesoEjecucion: threading.Thread
 hiloProcesoGrabar: threading.Thread
 enEjecucion: bool = False
 enGrabado: bool = False
-currentPressGrabar: set[pynputKey.Key] = set()
+currentPressGrabar: set[pynputKey.Key | pynputKey.KeyCode] = set()
 
 
 def getLastEvent(x:int = -100, y:int = -100) -> dict:
@@ -170,9 +169,8 @@ def mouseScroll(x: int, y:int, dx: int, dy: int):
 	})
 
 
-def keyPressGrabar(key: pynputKey.Key):
-	global currentPressGrabar
-	print(key, "Actuales:", len(currentPressGrabar))
+def keyPressGrabar(key: pynputKey.Key | pynputKey.KeyCode):
+	global eventosDict
 	if key == pynputKey.Key.esc:
 		global mListener, kListener, window, grabarJson, NombreNuevaSecuencia, enGrabado
 		mListener.stop()	#& MouseListener Detenido
@@ -182,28 +180,52 @@ def keyPressGrabar(key: pynputKey.Key):
 		writeJson(NombreNuevaSecuencia, lista=eventosDict, indentacion=2)	#& Modificar Json
 		print("Nuevo Json Guardado")
 		enGrabado = False
-	if(key == pynputKey.Key.ctrl or key == pynputKey.Key.ctrl_l or key == pynputKey.Key.ctrl_r):
-#& TODO: CONTROL
-		print(key)	
-		return
-	else:
-		currentPressGrabar.add(key)
-		return
 
-def keyReleaseGrabar(key: pynputKey.Key):
 	global currentPressGrabar
-	long: int = len(currentPressGrabar)
+	print(key, "Actuales:", len(currentPressGrabar))
 
-	if(long == 1):
+	if(key not in currentPressGrabar):	#& Si no estaba ya, lo añadimos
+		
+		timeEvent = getEventTime()	#& Ya viene formatead
+		currentPressGrabar.add(key)
 		tecla = key.char if (type(key) == pynput.keyboard.KeyCode) else (key.name)
-		print("Released: ", tecla)
-#& TODO: Añadir Accion
-	else:	#+ < 1
-		teclas = [t.name if type(t) == pynput.keyboard.Key else t.char for t in currentPressGrabar]
-		print("Multiple Released: ", teclas)
-#& TODO: Añadir Accion
+		eventosDict.append({
+			"name" : "keyPress",
+			"timeSince" : timeEvent,
+			"key" : tecla
+		})
+# 	if(key == pynputKey.Key.ctrl or key == pynputKey.Key.ctrl_l or key == pynputKey.Key.ctrl_r):
+# #& TODO: CONTROL
+# 		print(key)	
+# 		return
+# 	else:
+# 		currentPressGrabar.add(key)
+# 		return
 
-	currentPressGrabar.clear()	#& Cada vez que se deja de pulsar, se limpia TODAS las letras actuales (Si es una combinacion, se pulsarian a la vez de todas formas)
+def keyReleaseGrabar(key: pynputKey.Key | pynputKey.KeyCode):
+	global currentPressGrabar
+
+	if(key in currentPressGrabar):
+		global eventosDict
+		currentPressGrabar.discard(key)	#& Eliminamos valor del set
+		tecla = key.char if (type(key) == pynput.keyboard.KeyCode) else (key.name)
+		eventTime = getEventTime()
+		eventosDict.append({
+			"name" : "keyRelease",
+			"timeSince" : eventTime,
+			"key" : tecla
+		})
+
+# 	if(long == 1):
+# 		tecla = key.char if (type(key) == pynput.keyboard.KeyCode) else (key.name)
+# 		print("Released: ", tecla)
+# #& TODO: Añadir Accion
+# 	else:	#+ < 1
+# 		teclas = [t.name if type(t) == pynput.keyboard.Key else t.char for t in currentPressGrabar]
+# 		print("Multiple Released: ", teclas)
+# #& TODO: Añadir Accion
+	# currentPressGrabar.clear()	#& Cada vez que se deja de pulsar, se limpia TODAS las letras actuales (Si es una combinacion, se pulsarian a la vez de todas formas)
+
 
 def keyPressEjecutar(key: pynputKey.Key):
 	if key == pynputKey.Key.esc:
@@ -565,6 +587,7 @@ class Pantalla(QDialog):
 		kListener = None
 
 
+	
 	def BotonIniciar(self):
 		global grabarJson, EnModoEliminaar, enEjecucion, enGrabado
 		if(grabarJson):
