@@ -316,9 +316,7 @@ class Pantalla(QDialog):
 		self.radioButtonMinutos: QRadioButton = self.radioButton_3
 
 		self.radioButtonSegundos.setChecked(True)
-		self.radioButtonSegundos.toggled.connect(self.establecerTiempoDeRepeticion)
-		self.radioButtonHora.toggled.connect(self.establecerTiempoDeRepeticion)
-		self.radioButtonMinutos.toggled.connect(self.establecerTiempoDeRepeticion)
+
 
 
 		#apartado de la derecha 
@@ -531,21 +529,19 @@ class Pantalla(QDialog):
 			self.botonSecuencia.clicked.connect(self.manejar_click)
 
 
-	def establecerTiempoDeRepeticion(self, checked):
+	def establecerTiempoDeRepeticion(self):
 		global TiempoDeRepeticion
-		texto: str = self.TiempoIngresado.text()
-		if (texto == ""):
-			texto = "1"
-		if (checked):
-			if self.sender() is self.radioButtonSegundos:
-				TiempoDeRepeticion = int(texto)
-				# Realizar acciones para la opción 1
-			elif self.sender() is self.radioButtonHora :
-				TiempoDeRepeticion = int(texto) * 3600
-				# Realizar acciones para la opción 2
-			elif self.sender() is self.radioButtonMinutos:
-				TiempoDeRepeticion = int(texto) * 60
-				# Realizar acciones para la opción 2
+
+		if self.radioButtonSegundos.isChecked():
+			TiempoDeRepeticion = int(self.TiempoIngresado.text())
+
+
+		elif self.radioButtonHora.isChecked() :
+			TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 3600
+
+
+		elif self.radioButtonMinutos.isChecked():
+			TiempoDeRepeticion = int(self.TiempoIngresado.text()) * 60
 
 
 	def ejecucion(self):
@@ -607,6 +603,7 @@ class Pantalla(QDialog):
 		else:
 			if(EnModoEliminaar == False):
 				enEjecucion = True
+				self.establecerTiempoDeRepeticion()
 				self.createThreadEjecucion()
 
 
