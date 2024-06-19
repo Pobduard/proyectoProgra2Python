@@ -1,0 +1,257 @@
+[
+  {
+    "name": "mouseMove",
+    "timeSince": 0.975567,
+    "x": 1365,
+    "y": 767
+  },
+  {
+    "name": "click_left",
+    "timeSince": 0.231981,
+    "x": 1365,
+    "y": 767
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 0.998214,
+    "x": 0,
+    "y": 768
+  },
+  {
+    "name": "mouseDown",
+    "timeSince": 0.539664,
+    "button": "left"
+  },
+  {
+    "name": "mouseUp",
+    "timeSince": 0.084599,
+    "button": "left"
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 0.733723,
+    "x": 0,
+    "y": 764
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.200723,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.147236,
+    "key": "V"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.069023,
+    "key": "V"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.020249,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.249303,
+    "key": "i"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.046875,
+    "key": "i"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.122396,
+    "key": "s"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.115891,
+    "key": "s"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.16276,
+    "key": "u"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.053398,
+    "key": "u"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.046873,
+    "key": "a"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.069016,
+    "key": "a"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.084636,
+    "key": "l"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.046877,
+    "key": "l"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.755505,
+    "key": "space"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.084718,
+    "key": "space"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.162834,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.067495,
+    "key": "S"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.086159,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.216156,
+    "key": "t"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.046876,
+    "key": "t"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.169286,
+    "key": "u"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.053388,
+    "key": "u"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.115896,
+    "key": "d"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.062496,
+    "key": "d"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.053391,
+    "key": "i"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.053382,
+    "key": "i"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.115902,
+    "key": "o"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.027634,
+    "key": "o"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.520888,
+    "key": "space"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.069111,
+    "key": "space"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.015623,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.08474,
+    "key": "C"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.084602,
+    "key": "C"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.0,
+    "key": "shift"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.062495,
+    "key": "o"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.053399,
+    "key": "o"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.046867,
+    "key": "d"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.078046,
+    "key": "d"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 0.07551,
+    "key": "e"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.06901,
+    "key": "e"
+  },
+  {
+    "name": "keyPress",
+    "timeSince": 1.224108,
+    "key": "enter"
+  },
+  {
+    "name": "keyRelease",
+    "timeSince": 0.078135,
+    "key": "enter"
+  },
+  {
+    "name": "mouseMove",
+    "timeSince": 1.218642,
+    "x": 239,
+    "y": 422
+  }
+]
